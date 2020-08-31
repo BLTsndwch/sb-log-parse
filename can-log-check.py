@@ -41,7 +41,7 @@ mtch = re.compile(pattern=ptrn)
 
 #%% decode
 
-driveRoot = "K:"
+driveRoot = "D:"
 
 logPath = driveRoot
 #find folder
@@ -145,57 +145,70 @@ stddev = statistics.stdev(deltaTs)
 median = statistics.median(deltaTs)
 deltaTmax = max(deltaTs)
 deltaTmin = min(deltaTs)
-print(f"\u0394t: max={si_format(deltaTmax)}s, min={si_format(deltaTmin)}s, mean = {si_format(mean)}s, median = {si_format(median)}s, stdev = {si_format(stddev)}s")
+print(f"\u0394t: max = {si_format(deltaTmax)}s, min = {si_format(deltaTmin)}s, mean = {si_format(mean)}s, median = {si_format(median)}s, stdev = {si_format(stddev)}s")
 
 
 plt.plot(deltaTs)
     
 #%% Do math on dops
-# drops = [x for x in drops if x != 0]
-# mean = statistics.mean(drops)
-# stddev = statistics.stdev(drops)
-# median = statistics.median(drops)
-print(f"drops: mean = {si_format(mean)}, median = {si_format(median)}, stdev = {si_format(stddev)}")
-plt.plot(drops)
+if sum(drops) > 0:
+    dropsExist = True
+else:
+    dropsExist = False
 
+
+if dropsExist:
+
+    # drops = [x for x in drops if x != 0]
+    # mean = statistics.mean(drops)
+    # stddev = statistics.stdev(drops)
+    # median = statistics.median(drops)
+    print(f"drops: mean = {si_format(mean)}, median = {si_format(median)}, stdev = {si_format(stddev)}")
+    plt.plot(drops)
+else:
+    print("no stats on drops if no drops :)")
 
 #%%
+if dropsExist:
+    inds = [i for i,value in enumerate(drops) if value > 40]
+    # lazy trigger holdoff
+    edgeInds = []
+    edgeInds.append(inds[0])
+    for val in inds[1:]:
+        if (val - edgeInds[-1]) > 40:
+            edgeInds.append(val)
 
-inds = [i for i,value in enumerate(drops) if value > 40]
-# lazy trigger holdoff
-edgeInds = []
-edgeInds.append(inds[0])
-for val in inds[1:]:
-    if (val - edgeInds[-1]) > 40:
-        edgeInds.append(val)
-
-bigDropDeltaTs = []
-lastInd = edgeInds[0]
-for edgeInd in edgeInds[1:]:
-    bigDropDeltaTs.append( arrivalTimes[edgeInd] - arrivalTimes[lastInd] )
-    lastInd = edgeInd
+    bigDropDeltaTs = []
+    lastInd = edgeInds[0]
+    for edgeInd in edgeInds[1:]:
+        bigDropDeltaTs.append( arrivalTimes[edgeInd] - arrivalTimes[lastInd] )
+        lastInd = edgeInd
 
 
 
-# print(inds)
-# print(edgeInds)
-print("Time between large drops:", bigDropDeltaTs)
-mean = statistics.mean(bigDropDeltaTs)
-stddev = statistics.stdev(bigDropDeltaTs)
-median = statistics.median(bigDropDeltaTs)
-print(f"dropsDeltaT: mean = {si_format(mean)}, median = {si_format(median)}, stdev = {si_format(stddev)}")
+    # print(inds)
+    # print(edgeInds)
+    print("Time between large drops:", bigDropDeltaTs)
+    mean = statistics.mean(bigDropDeltaTs)
+    stddev = statistics.stdev(bigDropDeltaTs)
+    median = statistics.median(bigDropDeltaTs)
+    print(f"dropsDeltaT: mean = {si_format(mean)}, median = {si_format(median)}, stdev = {si_format(stddev)}")
+else:
+    print("no drop timing if no drops :)")
 
 #%% try to find pattern in dops
-stopInd = len(drops)
-indDiffs = []
-for i in range(2, len(inds)):
-    thisdiff = inds[i] - inds[i-1]
-    if i < 50:
-        print(i, inds[i], inds[i-1], thisdiff)
-    indDiffs.append(thisdiff)
 
-mean = statistics.mean(indDiffs)
-stddev = statistics.stdev(indDiffs)
-median = statistics.median(indDiffs)
-print(f"drops: mean = {si_format(mean)}, median = {si_format(median)}, stdev = {si_format(stddev)}")
-plt.plot(indDiffs)
+if dropsExist:
+    stopInd = len(drops)
+    indDiffs = []
+    for i in range(2, len(inds)):
+        thisdiff = inds[i] - inds[i-1]
+        if i < 50:
+            print(i, inds[i], inds[i-1], thisdiff)
+        indDiffs.append(thisdiff)
+
+    mean = statistics.mean(indDiffs)
+    stddev = statistics.stdev(indDiffs)
+    median = statistics.median(indDiffs)
+    print(f"drops: mean = {si_format(mean)}, median = {si_format(median)}, stdev = {si_format(stddev)}")
+    plt.plot(indDiffs)
