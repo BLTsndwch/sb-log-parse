@@ -1,0 +1,142 @@
+[
+    {
+        "can_id": 1569,
+        "datatype": "float32",
+        "name": "GPS_Latitude",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -90,
+        "max_value": 90,
+        "description": "The latitude of the car"
+    },
+    {
+        "can_id": 1569,
+        "datatype": "float32",
+        "name": "GPS_Longitude",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": -180,
+        "max_value": 180,
+        "description": "The longitude of the car"
+    },
+    {
+        "can_id": 1570,
+        "datatype": "float32",
+        "name": "GPS_Altitude",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -100,
+        "max_value": 10000,
+        "description": "The altitude of the car"
+    },
+    {
+        "can_id": 1571,
+        "datatype": "float32",
+        "name": "GPS_Speed",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 100,
+        "description": "The speed of the car"
+    },
+    {
+        "can_id": 1571,
+        "datatype": "float32",
+        "name": "GPS_Angle",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 365,
+        "description": "The angle of which the car is traveling at"
+    },
+    {
+        "can_id": 1573,
+        "datatype": "float32",
+        "name": "Yaw",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -3.15,
+        "max_value": 3.15,
+        "description": "Angle of the car about the vertical axis"
+    },
+    {
+        "can_id": 1573,
+        "datatype": "float32",
+        "name": "Pitch",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": -3.15,
+        "max_value": 3.15,
+        "description": "Angle of the car with respect to the ground (hill inclination)"
+    },
+    {
+        "can_id": 1574,
+        "datatype": "float32",
+        "name": "Roll",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -3.15,
+        "max_value": 3.15,
+        "description": "Angle of the car with respect to the ground (hill secondary axis of curvature)"
+    },
+    {
+        "can_id": 1577,
+        "datatype": "float32",
+        "name": "Raw_Acceleration_X",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -16,
+        "max_value": 16,
+        "description": "The acceleration of the car going forward"
+    },
+    {
+        "can_id": 1577,
+        "datatype": "float32",
+        "name": "Raw_Acceleration_Y",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": -16,
+        "max_value": 16,
+        "description": "The acceleration of the car going left/right"
+    },
+    {
+        "can_id": 1578,
+        "datatype": "float32",
+        "name": "Raw_Acceleration_Z",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -16,
+        "max_value": 16,
+        "description": "The acceleration of the car going up/down"
+    },
+    {
+        "can_id": 1578,
+        "datatype": "float32",
+        "name": "Acceleration_Scale",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 8,
+        "description": "The magnitude of the acceleration"
+    },
+    {
+        "can_id": 1581,
+        "datatype": "float32",
+        "name": "IMU_Temperature",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -80,
+        "max_value": 120,
+        "description": "The temperature of the Inertial Measurement Unit"
+    },
+    {
+        "can_id": 1582,
+        "datatype": "uint8",
+        "name": "GPS_Status",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1,
+        "description": "Displays whether the GPS currently has a position fix"
+    }
+]

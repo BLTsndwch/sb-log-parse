@@ -1,0 +1,95 @@
+[
+    {
+        "can_id": 1281,
+        "datatype": "float32",
+        "name": "Target_RPM",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": -20000,
+        "max_value": 20000,
+        "description": "Target motor control speed set by MC^2"
+    },
+    {
+        "can_id": 1281,
+        "datatype": "float32",
+        "name": "Throttle",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1,
+        "description": "Pedal position/proportion of max bus current each Wavesculptor is allowed to draw to drive its motor"
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "NOS_Mode_Active",
+        "offset": 0,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1,
+        "description": "Whether the driver has access to the full torque of the vehicle"
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_Cruise_Enabled",
+        "offset": 1,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_Drive_Direction",
+        "offset": 2,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_Regen_Enabled",
+        "offset": 3,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_Accel_Pressed",
+        "offset": 4,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_Brake_Pressed",
+        "offset": 5,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 1
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_CAN_TX_Errors",
+        "offset": 6,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 255
+    },
+    {
+        "can_id": 1385,
+        "datatype": "uint8",
+        "name": "MC2_CAN_RX_Errors",
+        "offset": 7,
+        "check_bounds": true,
+        "min_value": 0,
+        "max_value": 255
+    }
+]
