@@ -1,0 +1,42 @@
+[
+    {
+        "can_id": 515,
+        "datatype": "bit",
+        "name": "GPIO_Board_A_Brake_Switch",
+        "offset": 0,
+        "check_bounds": false,
+        "description": "Brake switch state (inverted)"
+    },
+    {
+        "can_id": 515,
+        "datatype": "bit",
+        "name": "GPIO_Board_A_Hazards_Switch",
+        "offset": 1,
+        "check_bounds": false,
+        "description": "Hazard switch state (inverted)"
+    },
+    {
+        "can_id": 515,
+        "datatype": "bit",
+        "name": "GPIO_Board_A_Horn_Button",
+        "offset": 2,
+        "check_bounds": false,
+        "description": "Horn button state (inverted)"
+    },
+    {
+        "can_id": 515,
+        "datatype": "bit",
+        "name": "GPIO_Board_A_Right_Blinker_Switch",
+        "offset": 3,
+        "check_bounds": false,
+        "description": "Right blinker switch state (inverted)"
+    },
+    {
+        "can_id": 515,
+        "datatype": "bit",
+        "name": "GPIO_Board_A_Left_Blinker_Switch",
+        "offset": 4,
+        "check_bounds": false,
+        "description": "Left blinker switch state (inverted)"
+    }
+]

@@ -1,0 +1,2502 @@
+[
+  {
+    "can_id": 1,
+    "datatype": "uint8",
+    "name": "Trip_Status",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 10,
+    "description": "Last cause of BMS trip"
+  },
+  {
+    "can_id": 105,
+    "datatype": "uint8",
+    "name": "SD_Card_Status",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": "SD card is in logger or not"
+  },
+  {
+    "can_id": 384,
+    "datatype": "float32",
+    "name": "MG_0_Input_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 10000,
+    "description": "Current produced by the array connected to MG 0 (in mA)"
+  },
+  {
+    "can_id": 384,
+    "datatype": "float32",
+    "name": "MG_0_Input_Voltage",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": "Voltage of the array connected to MG 0"
+  },
+  {
+    "can_id": 385,
+    "datatype": "float32",
+    "name": "MG_1_Input_Voltage",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": "Voltage of the array connected to MG 1"
+  },
+  {
+    "can_id": 385,
+    "datatype": "float32",
+    "name": "MG_1_Input_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 10000,
+    "description": "Current produced by the array connected to MG 1 (in mA)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Brake_Switch",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Brake switch state (inverted)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Left_Blinker_Switch",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Left blinker switch state (inverted)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Right_Blinker_Switch",
+    "offset": 3,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Right blinker switch state (inverted)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Horn_Button",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Horn button state (inverted)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Hazards_Switch",
+    "offset": 1,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Hazard switch state (inverted)"
+  },
+  {
+    "can_id": 640,
+    "datatype": "float32",
+    "name": "MG_0_Output_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Output voltage of MG 0"
+  },
+  {
+    "can_id": 640,
+    "datatype": "float32",
+    "name": "MG_0_Input_Power",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1200000,
+    "description": "Power produced by the array connected to MG 0 (in mW)"
+  },
+  {
+    "can_id": 641,
+    "datatype": "float32",
+    "name": "MG_1_Output_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Output voltage of MG 1"
+  },
+  {
+    "can_id": 641,
+    "datatype": "float32",
+    "name": "MG_1_Input_Power",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1200000,
+    "description": "Power produced by the array connected to MG 1 (in mW)"
+  },
+  {
+    "can_id": 768,
+    "datatype": "float32",
+    "name": "Cell_Voltage_2",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 2"
+  },
+  {
+    "can_id": 768,
+    "datatype": "float32",
+    "name": "Cell_Voltage_1",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 1"
+  },
+  {
+    "can_id": 769,
+    "datatype": "float32",
+    "name": "Cell_Voltage_3",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 3"
+  },
+  {
+    "can_id": 769,
+    "datatype": "float32",
+    "name": "Cell_Voltage_4",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 4"
+  },
+  {
+    "can_id": 770,
+    "datatype": "float32",
+    "name": "Cell_Voltage_5",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 5"
+  },
+  {
+    "can_id": 770,
+    "datatype": "float32",
+    "name": "Cell_Voltage_6",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 6"
+  },
+  {
+    "can_id": 771,
+    "datatype": "float32",
+    "name": "Cell_Voltage_7",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 7"
+  },
+  {
+    "can_id": 771,
+    "datatype": "float32",
+    "name": "Cell_Voltage_8",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 8"
+  },
+  {
+    "can_id": 772,
+    "datatype": "float32",
+    "name": "Cell_Voltage_9",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 9"
+  },
+  {
+    "can_id": 772,
+    "datatype": "float32",
+    "name": "Cell_Voltage_10",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 10"
+  },
+  {
+    "can_id": 773,
+    "datatype": "float32",
+    "name": "Cell_Voltage_11",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 11"
+  },
+  {
+    "can_id": 773,
+    "datatype": "float32",
+    "name": "Cell_Voltage_12",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 12"
+  },
+  {
+    "can_id": 774,
+    "datatype": "float32",
+    "name": "Cell_Voltage_14",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 14"
+  },
+  {
+    "can_id": 774,
+    "datatype": "float32",
+    "name": "Cell_Voltage_13",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 13"
+  },
+  {
+    "can_id": 775,
+    "datatype": "float32",
+    "name": "Cell_Voltage_16",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 16"
+  },
+  {
+    "can_id": 775,
+    "datatype": "float32",
+    "name": "Cell_Voltage_15",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 15"
+  },
+  {
+    "can_id": 776,
+    "datatype": "float32",
+    "name": "Cell_Voltage_18",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 18"
+  },
+  {
+    "can_id": 776,
+    "datatype": "float32",
+    "name": "Cell_Voltage_17",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 17"
+  },
+  {
+    "can_id": 777,
+    "datatype": "float32",
+    "name": "Cell_Voltage_20",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 20"
+  },
+  {
+    "can_id": 777,
+    "datatype": "float32",
+    "name": "Cell_Voltage_19",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 19"
+  },
+  {
+    "can_id": 778,
+    "datatype": "float32",
+    "name": "Cell_Voltage_21",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 21"
+  },
+  {
+    "can_id": 778,
+    "datatype": "float32",
+    "name": "Cell_Voltage_22",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 22"
+  },
+  {
+    "can_id": 779,
+    "datatype": "float32",
+    "name": "Cell_Voltage_24",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 24"
+  },
+  {
+    "can_id": 779,
+    "datatype": "float32",
+    "name": "Cell_Voltage_23",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 23"
+  },
+  {
+    "can_id": 780,
+    "datatype": "float32",
+    "name": "Cell_Voltage_25",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 25"
+  },
+  {
+    "can_id": 780,
+    "datatype": "float32",
+    "name": "Cell_Voltage_26",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 26"
+  },
+  {
+    "can_id": 781,
+    "datatype": "float32",
+    "name": "Cell_Voltage_27",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 27"
+  },
+  {
+    "can_id": 781,
+    "datatype": "float32",
+    "name": "Cell_Voltage_28",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 28"
+  },
+  {
+    "can_id": 782,
+    "datatype": "float32",
+    "name": "Cell_Voltage_30",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 30"
+  },
+  {
+    "can_id": 782,
+    "datatype": "float32",
+    "name": "Cell_Voltage_29",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 29"
+  },
+  {
+    "can_id": 783,
+    "datatype": "float32",
+    "name": "Cell_Voltage_31",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 31"
+  },
+  {
+    "can_id": 783,
+    "datatype": "float32",
+    "name": "Cell_Voltage_32",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 32"
+  },
+  {
+    "can_id": 784,
+    "datatype": "float32",
+    "name": "Cell_Voltage_34",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 34"
+  },
+  {
+    "can_id": 784,
+    "datatype": "float32",
+    "name": "Cell_Voltage_33",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 33"
+  },
+  {
+    "can_id": 785,
+    "datatype": "float32",
+    "name": "Cell_Voltage_35",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 35"
+  },
+  {
+    "can_id": 785,
+    "datatype": "float32",
+    "name": "Cell_Voltage_36",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 36"
+  },
+  {
+    "can_id": 786,
+    "datatype": "float32",
+    "name": "Cell_Voltage_38",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 38"
+  },
+  {
+    "can_id": 786,
+    "datatype": "float32",
+    "name": "Cell_Voltage_37",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 37"
+  },
+  {
+    "can_id": 787,
+    "datatype": "float32",
+    "name": "Cell_Voltage_40",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 40"
+  },
+  {
+    "can_id": 787,
+    "datatype": "float32",
+    "name": "Cell_Voltage_39",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 39"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_2",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 2"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_7",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 7"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_3",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 3"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_4",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 4"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_5",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 5"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_8",
+    "offset": 7,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 8"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_1",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 1"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_6",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 6"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_14",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 14"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_10",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 10"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_11",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 11"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_12",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 12"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_9",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 9"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_15",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 15"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_16",
+    "offset": 7,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 16"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_13",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 13"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_21",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 21"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_20",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 20"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_19",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 19"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_18",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 18"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_17",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 17"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_22",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 22"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_24",
+    "offset": 7,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 24"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_23",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 23"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_32",
+    "offset": 7,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 32"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_31",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 31"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_25",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 25"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_27",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 27"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_29",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 29"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_26",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 26"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_28",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 28"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_30",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 30"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_38",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 38"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_36",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 36"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_39",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 39"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_35",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 35"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_34",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 34"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_33",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 33"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_40",
+    "offset": 7,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 40"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_37",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 37"
+  },
+  {
+    "can_id": 833,
+    "datatype": "float32",
+    "name": "Max_Voltage",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Maximum voltage of any module in the battery pack"
+  },
+  {
+    "can_id": 833,
+    "datatype": "float32",
+    "name": "Min_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Minimum voltage of any module in the battery pack"
+  },
+  {
+    "can_id": 834,
+    "datatype": "float32",
+    "name": "BMS_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -150,
+    "max_value": 150,
+    "description": "Net current out of battery pack (negative charging)"
+  },
+  {
+    "can_id": 834,
+    "datatype": "float32",
+    "name": "State_of_Charge",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -0.001,
+    "max_value": 1.001,
+    "description": "Current estimated state of charge of the battery"
+  },
+  {
+    "can_id": 835,
+    "datatype": "float32",
+    "name": "Min_Temperature",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Minimum temperature of any module in the battery pack"
+  },
+  {
+    "can_id": 835,
+    "datatype": "float32",
+    "name": "Max_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Maximum temperature of any module in the battery pack"
+  },
+  {
+    "can_id": 836,
+    "datatype": "uint8",
+    "name": "Heatsink_Temperature_2",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Heatsink temperature of the Manzanita on String 2"
+  },
+  {
+    "can_id": 836,
+    "datatype": "uint8",
+    "name": "Heatsink_Temperature_5",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Heatsink temperature of the Manzanita on String 5"
+  },
+  {
+    "can_id": 836,
+    "datatype": "uint8",
+    "name": "Heatsink_Temperature_3",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Heatsink temperature of the Manzanita on String 3"
+  },
+  {
+    "can_id": 836,
+    "datatype": "uint8",
+    "name": "Heatsink_Temperature_4",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Heatsink temperature of the Manzanita on String 4"
+  },
+  {
+    "can_id": 836,
+    "datatype": "uint8",
+    "name": "Heatsink_Temperature_1",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Heatsink temperature of the Manzanita on String 1"
+  },
+  {
+    "can_id": 837,
+    "datatype": "float32",
+    "name": "V12_Vicor_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -10,
+    "max_value": 10,
+    "description": "The current drawn from the Vicor converter (total 12V line)"
+  },
+  {
+    "can_id": 837,
+    "datatype": "float32",
+    "name": "V12_Vicor_Voltage",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 20,
+    "description": "The voltage output of the Vicor converter"
+  },
+  {
+    "can_id": 838,
+    "datatype": "float32",
+    "name": "Pack_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Total output voltage of the Battery Pack"
+  },
+  {
+    "can_id": 838,
+    "datatype": "float32",
+    "name": "Pack_Capacity",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The total charge capacity of the Battery Pack"
+  },
+  {
+    "can_id": 839,
+    "datatype": "float32",
+    "name": "V12_Common_Voltage",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 20,
+    "description": "Voltage of the 12V Common line"
+  },
+  {
+    "can_id": 839,
+    "datatype": "float32",
+    "name": "V12_Critical_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 20,
+    "description": "Voltage of the 12V Critical line"
+  },
+  {
+    "can_id": 840,
+    "datatype": "float32",
+    "name": "Auxiliary_Battery_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 20,
+    "description": "The voltage of the auxiliary battery"
+  },
+  {
+    "can_id": 841,
+    "datatype": "float32",
+    "name": "Balancing_Threshold",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "The current voltage setpoint for Battery balancing (shunt point)"
+  },
+  {
+    "can_id": 841,
+    "datatype": "float32",
+    "name": "Balancing_Enabled",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": "Whether BMS Master has decided to balance the modules"
+  },
+  {
+    "can_id": 842,
+    "datatype": "float32",
+    "name": "I_Net",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -150,
+    "max_value": 150,
+    "description": ""
+  },
+  {
+    "can_id": 842,
+    "datatype": "float32",
+    "name": "Q_Net",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -50,
+    "max_value": 50,
+    "description": ""
+  },
+  {
+    "can_id": 843,
+    "datatype": "float32",
+    "name": "BMS_Current_Limit_Discharging",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -240,
+    "max_value": 240,
+    "description": ""
+  },
+  {
+    "can_id": 843,
+    "datatype": "float32",
+    "name": "BMS_Current_Limit_Charging",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -240,
+    "max_value": 240,
+    "description": ""
+  },
+  {
+    "can_id": 844,
+    "datatype": "float32",
+    "name": "BMS_Master_Raw_Pack_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 4096,
+    "description": ""
+  },
+  {
+    "can_id": 844,
+    "datatype": "float32",
+    "name": "BMS_Master_5V_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 6,
+    "description": ""
+  },
+  {
+    "can_id": 845,
+    "datatype": "float32",
+    "name": "BMS_Master_12V_A_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 20,
+    "description": ""
+  },
+  {
+    "can_id": 845,
+    "datatype": "float32",
+    "name": "BMS_Master_12V_B_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 20,
+    "description": ""
+  },
+  {
+    "can_id": 846,
+    "datatype": "float32",
+    "name": "BMS_Master_MPPT_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -20,
+    "max_value": 20,
+    "description": ""
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Bad_Motor_Position_Hall_Sequence",
+    "offset": 19,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a bad motor position hall sequence error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Motor_Over_Speed",
+    "offset": 24,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a motor over speed error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint8",
+    "name": "Right_Wavesculptor_CAN_Receive_Error_Count",
+    "offset": 7,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of receive errors from the right Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Desaturation_Fault",
+    "offset": 23,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a desaturation fault"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_15V_Rail_Under_Voltage_Lockout",
+    "offset": 22,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a 15V rail under voltage lockout error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint8",
+    "name": "Right_Wavesculptor_CAN_Transmit_Error_Count",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of transmit errors from the right Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint16",
+    "name": "Right_Wavesculptor_Limit_Flags",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall limit flags for the right wavesculptor"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint16",
+    "name": "Right_Wavesculptor_Error_Flags",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall error flags for the right wavesculptor"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Output_Voltage_PWM",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right wavesculptor is limited by the output voltage PWM"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Motor_Current",
+    "offset": 1,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right Wavesculptor is being limited by the motor current"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Velocity",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right Wavesculptor is being limited by velocity"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Bus_Current",
+    "offset": 3,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right Wavesculptor is being limited by the bus current"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Bus_Voltage_Upper",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right Wavesculptor is being limited by the bus voltage upper limit"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Bus_Voltage_Lower",
+    "offset": 5,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right Wavesculptor is being limited by the bus voltage lower limit"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Config_Read_Error",
+    "offset": 21,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced an error reading the config"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Software_Over_Current",
+    "offset": 17,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a software over current error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_DC_Bus_Over_Voltage",
+    "offset": 18,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a DC bus over voltage error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Motor_Temperature",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right Wavesculptor is being limited by the motor temperature"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Watchdog_Caused_Last_Reset",
+    "offset": 20,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a watchdog caused last reset error"
+  },
+  {
+    "can_id": 1026,
+    "datatype": "float32",
+    "name": "Right_Bus_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -150,
+    "max_value": 150,
+    "description": "The DC current consumed by the right Wavesculptor"
+  },
+  {
+    "can_id": 1026,
+    "datatype": "float32",
+    "name": "Right_Bus_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The DC bus voltage on the right Wavesculptor"
+  },
+  {
+    "can_id": 1027,
+    "datatype": "float32",
+    "name": "Right_Wavesculptor_RPM",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -2000,
+    "max_value": 2000,
+    "description": "The rotational velocity of the right motor"
+  },
+  {
+    "can_id": 1028,
+    "datatype": "float32",
+    "name": "Right_Phase_C_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -1,
+    "max_value": 100,
+    "description": "RMS current flowing through phase C on the right motor"
+  },
+  {
+    "can_id": 1028,
+    "datatype": "float32",
+    "name": "Right_Phase_B_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -1,
+    "max_value": 100,
+    "description": "RMS current flowing through phase B on the right motor"
+  },
+  {
+    "can_id": 1029,
+    "datatype": "float32",
+    "name": "Right_Motor_Vd",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -10,
+    "max_value": 50,
+    "description": "The right motor's voltage through its direct axis (perpendicular to quadrature axis)"
+  },
+  {
+    "can_id": 1029,
+    "datatype": "float32",
+    "name": "Right_Motor_Vq",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -5,
+    "max_value": 5,
+    "description": "The right motor's voltage along its quadrature axis (torque-producing)"
+  },
+  {
+    "can_id": 1030,
+    "datatype": "float32",
+    "name": "Right_Motor_Id",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 100,
+    "description": "The right motor's current through its direct axis (perpendicular to quadrature axis)"
+  },
+  {
+    "can_id": 1030,
+    "datatype": "float32",
+    "name": "Right_Motor_Iq",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 100,
+    "description": "The right motor's current through its quadrature axis (torque-producing)"
+  },
+  {
+    "can_id": 1031,
+    "datatype": "float32",
+    "name": "Right_Motor_BackEMF",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -200,
+    "max_value": 200,
+    "description": "The value of the right motor's back-electromagnetic field"
+  },
+  {
+    "can_id": 1032,
+    "datatype": "float32",
+    "name": "Right_Motor_15V_Measurement",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The value measured on the right motor's 15V rail"
+  },
+  {
+    "can_id": 1035,
+    "datatype": "float32",
+    "name": "Right_Wavesculptor_Heatsink_Temp",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The temperature of the right Wavesculptor's heatsink"
+  },
+  {
+    "can_id": 1035,
+    "datatype": "float32",
+    "name": "Right_Motor_Temp",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The temperature of the right motor"
+  },
+  {
+    "can_id": 1038,
+    "datatype": "float32",
+    "name": "Right_Odometer",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -321869,
+    "max_value": 321869,
+    "description": "Distance the right motor has travelled since the right Wavesculptor was last reset"
+  },
+  {
+    "can_id": 1038,
+    "datatype": "float32",
+    "name": "Right_Charge_Consumed",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -1000,
+    "max_value": 1000,
+    "description": "The amount of charge consumed by the right motor since the right Wavesculptor was last reset"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Bad_Motor_Position_Hall_Sequence",
+    "offset": 19,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a bad motor position hall sequence error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Watchdog_Caused_Last_Reset",
+    "offset": 20,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a watchdog caused last reset error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_DC_Bus_Over_Voltage",
+    "offset": 18,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a DC bus over voltage error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Software_Over_Current",
+    "offset": 17,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a software over current error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Motor_Temperature",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by the motor temperature"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Config_Read_Error",
+    "offset": 21,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced an error reading the config"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_15V_Rail_Under_Voltage_Lockout",
+    "offset": 22,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a 15V rail under voltage lockout error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Desaturation_Fault",
+    "offset": 23,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a desaturation fault"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Motor_Over_Speed",
+    "offset": 24,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a motor over speed error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "uint8",
+    "name": "Left_Wavesculptor_CAN_Transmit_Error_Count",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of transmit errors from the left Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "uint8",
+    "name": "Left_Wavesculptor_CAN_Receive_Error_Count",
+    "offset": 7,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of receive errors from the left Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "uint16",
+    "name": "Left_Wavesculptor_Limit_Flags",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall limit flags for the left wavesculptor"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Bus_Voltage_Lower",
+    "offset": 5,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by the bus voltage lower limit"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Bus_Voltage_Upper",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by the bus voltage upper limit"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Bus_Current",
+    "offset": 3,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by the bus current"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Velocity",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by velocity"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "uint16",
+    "name": "Left_Wavesculptor_Error_Flags",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall error flags for the left wavesculptor"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Output_Voltage_PWM",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left wavesculptor is limited by the output voltage PWM"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Motor_Current",
+    "offset": 1,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by the motor current"
+  },
+  {
+    "can_id": 1058,
+    "datatype": "float32",
+    "name": "Left_Bus_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -150,
+    "max_value": 150,
+    "description": "The DC current consumed by the left Wavesculptor"
+  },
+  {
+    "can_id": 1058,
+    "datatype": "float32",
+    "name": "Left_Bus_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The DC bus voltage on the left Wavesculptor"
+  },
+  {
+    "can_id": 1059,
+    "datatype": "float32",
+    "name": "Left_Wavesculptor_RPM",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -2000,
+    "max_value": 2000,
+    "description": "The rotational velocity of the left motor"
+  },
+  {
+    "can_id": 1060,
+    "datatype": "float32",
+    "name": "Left_Phase_C_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -1,
+    "max_value": 100,
+    "description": "RMS current flowing through phase C on the left motor"
+  },
+  {
+    "can_id": 1060,
+    "datatype": "float32",
+    "name": "Left_Phase_B_Current",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -1,
+    "max_value": 100,
+    "description": "RMS current flowing through phase B on the left motor"
+  },
+  {
+    "can_id": 1061,
+    "datatype": "float32",
+    "name": "Left_Motor_Vq",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -5,
+    "max_value": 5,
+    "description": "The left motor's voltage along its quadrature axis"
+  },
+  {
+    "can_id": 1061,
+    "datatype": "float32",
+    "name": "Left_Motor_Vd",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -10,
+    "max_value": 50,
+    "description": "The left motor voltage through its direct axis (perpendicular to quadrature axis)"
+  },
+  {
+    "can_id": 1062,
+    "datatype": "float32",
+    "name": "Left_Motor_Id",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 100,
+    "description": "The left motor current through its direct axis (perpendicular to quadrature axis)"
+  },
+  {
+    "can_id": 1062,
+    "datatype": "float32",
+    "name": "Left_Motor_Iq",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 100,
+    "description": "The left motor's current along its quadrature axis (torque-producing)"
+  },
+  {
+    "can_id": 1063,
+    "datatype": "float32",
+    "name": "Left_Motor_BackEMF",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -200,
+    "max_value": 200,
+    "description": "The value of the left motor's back-electromagnetic field"
+  },
+  {
+    "can_id": 1064,
+    "datatype": "float32",
+    "name": "Left_Motor_15V_Measurement",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The value measured on the left motor's 15V rail"
+  },
+  {
+    "can_id": 1067,
+    "datatype": "float32",
+    "name": "Left_Wavesculptor_Heatsink_Temp",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The temperature of the left Wavesculptor's heatsink"
+  },
+  {
+    "can_id": 1067,
+    "datatype": "float32",
+    "name": "Left_Motor_Temp",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The temperature of the left motor"
+  },
+  {
+    "can_id": 1070,
+    "datatype": "float32",
+    "name": "Left_Charge_Consumed",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -1000,
+    "max_value": 1000,
+    "description": "The amount of charge consumed by the left motor since the left Wavesculptor was last reset"
+  },
+  {
+    "can_id": 1070,
+    "datatype": "float32",
+    "name": "Left_Odometer",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -321869,
+    "max_value": 321869,
+    "description": "Distance the left motor has travelled since the left Wavesculptor was last reset"
+  },
+  {
+    "can_id": 1152,
+    "datatype": "int16",
+    "name": "MG_0_MOSFET_Temperature",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": -40,
+    "max_value": 80,
+    "description": "Temperature of MG 0's power MOSFETs (in .01C increments)"
+  },
+  {
+    "can_id": 1152,
+    "datatype": "int16",
+    "name": "MG_0_PCB_Temperature",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -40,
+    "max_value": 80,
+    "description": "Temperature of MG 0's PCB (in .01C increments)"
+  },
+  {
+    "can_id": 1153,
+    "datatype": "int16",
+    "name": "MG_1_MOSFET_Temperature",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": -40,
+    "max_value": 80,
+    "description": "Temperature of MG 1's power MOSFETs (in .01C increments)"
+  },
+  {
+    "can_id": 1153,
+    "datatype": "int16",
+    "name": "MG_1_PCB_Temperature",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -40,
+    "max_value": 80,
+    "description": "Temperature of MG 1's PCB (in .01C increments)"
+  },
+  {
+    "can_id": 1281,
+    "datatype": "float32",
+    "name": "Throttle",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": "Pedal position/proportion of max bus current each Wavesculptor is allowed to draw to drive its motor"
+  },
+  {
+    "can_id": 1281,
+    "datatype": "float32",
+    "name": "Target_RPM",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -20000,
+    "max_value": 20000,
+    "description": "Target motor control speed set by MC^2"
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_CAN_RX_Errors",
+    "offset": 7,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 255,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "NOS_Mode_Active",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": "Whether the driver has access to the full torque of the vehicle"
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Cruise_Enabled",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Regen_Enabled",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Accel_Pressed",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Brake_Pressed",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_CAN_TX_Errors",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 255,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Drive_Direction",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1569,
+    "datatype": "float32",
+    "name": "GPS_Longitude",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -180,
+    "max_value": 180,
+    "description": "The longitude of the car"
+  },
+  {
+    "can_id": 1569,
+    "datatype": "float32",
+    "name": "GPS_Latitude",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -90,
+    "max_value": 90,
+    "description": "The latitude of the car"
+  },
+  {
+    "can_id": 1570,
+    "datatype": "float32",
+    "name": "GPS_Altitude",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 10000,
+    "description": "The altitude of the car"
+  },
+  {
+    "can_id": 1571,
+    "datatype": "float32",
+    "name": "GPS_Angle",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 365,
+    "description": "The angle of which the car is traveling at"
+  },
+  {
+    "can_id": 1571,
+    "datatype": "float32",
+    "name": "GPS_Speed",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": "The speed of the car"
+  },
+  {
+    "can_id": 1573,
+    "datatype": "float32",
+    "name": "Yaw",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -3.15,
+    "max_value": 3.15,
+    "description": "Angle of the car about the vertical axis"
+  },
+  {
+    "can_id": 1573,
+    "datatype": "float32",
+    "name": "Pitch",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -3.15,
+    "max_value": 3.15,
+    "description": "Angle of the car with respect to the ground (hill inclination)"
+  },
+  {
+    "can_id": 1574,
+    "datatype": "float32",
+    "name": "Roll",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -3.15,
+    "max_value": 3.15,
+    "description": "Angle of the car with respect to the ground (hill secondary axis of curvature)"
+  },
+  {
+    "can_id": 1577,
+    "datatype": "float32",
+    "name": "Raw_Acceleration_X",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going forward"
+  },
+  {
+    "can_id": 1577,
+    "datatype": "float32",
+    "name": "Raw_Acceleration_Y",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going left/right"
+  },
+  {
+    "can_id": 1578,
+    "datatype": "float32",
+    "name": "Raw_Acceleration_Z",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going up/down"
+  },
+  {
+    "can_id": 1578,
+    "datatype": "float32",
+    "name": "Acceleration_Scale",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 8,
+    "description": "The magnitude of the acceleration"
+  },
+  {
+    "can_id": 1581,
+    "datatype": "float32",
+    "name": "IMU_Temperature",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -80,
+    "max_value": 120,
+    "description": "The temperature of the Inertial Measurement Unit"
+  },
+  {
+    "can_id": 1582,
+    "datatype": "uint8",
+    "name": "GPS_Status",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": "Displays whether the GPS currently has a position fix"
+  },
+  {
+    "can_id": 1680,
+    "datatype": "float32",
+    "name": "Photon_Channel_0_Array_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 15,
+    "description": "The current flowing through the array connected to Photon channel 0"
+  },
+  {
+    "can_id": 1680,
+    "datatype": "float32",
+    "name": "Photon_Channel_0_Array_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": "The voltage of the array connected to Photon channel 0"
+  },
+  {
+    "can_id": 1681,
+    "datatype": "float32",
+    "name": "Photon_Channel_0_Battery_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The battery voltage (output) on Photon channel 0"
+  },
+  {
+    "can_id": 1681,
+    "datatype": "float32",
+    "name": "Photon_Channel_0_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -40,
+    "max_value": 200,
+    "description": "The temperature of the power electronics for Photon channel 0"
+  },
+  {
+    "can_id": 1682,
+    "datatype": "float32",
+    "name": "Photon_Channel_1_Array_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": "The voltage of the array connected to Photon channel 1"
+  },
+  {
+    "can_id": 1682,
+    "datatype": "float32",
+    "name": "Photon_Channel_1_Array_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 15,
+    "description": "The current flowing through the array connected to Photon channel 0"
+  },
+  {
+    "can_id": 1683,
+    "datatype": "float32",
+    "name": "Photon_Channel_1_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -40,
+    "max_value": 200,
+    "description": "The temperature of the power electronics for Photon channel 1"
+  },
+  {
+    "can_id": 1683,
+    "datatype": "float32",
+    "name": "Photon_Channel_1_Battery_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The battery voltage (output) on Photon channel 1"
+  },
+  {
+    "can_id": 1684,
+    "datatype": "float32",
+    "name": "Aux_Drivetek_Input_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": "The voltage of the array connected to the Drivetek"
+  },
+  {
+    "can_id": 1684,
+    "datatype": "float32",
+    "name": "Aux_Drivetek_Input_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 15,
+    "description": "The current flowing through the array connected to the Drivetek"
+  },
+  {
+    "can_id": 1685,
+    "datatype": "uint8",
+    "name": "Aux_Drivetek_Flags",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Used to send errors for Drivetek"
+  },
+  {
+    "can_id": 1685,
+    "datatype": "uint8",
+    "name": "Aux_Drivetek_Temperature",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The temperature of the Drivetek's power electronics"
+  },
+  {
+    "can_id": 1796,
+    "datatype": "uint32",
+    "name": "Strategy_Message",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": ""
+  },
+  {
+    "can_id": 1797,
+    "datatype": "uint8",
+    "name": "Driver_ACK_Status",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 255,
+    "description": "Last value of driver's ACK/NACK button press"
+  },
+  {
+    "can_id": 1798,
+    "datatype": "uint8",
+    "name": "MC2_Lap_Reset",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1799,
+    "datatype": "float32",
+    "name": "Target_Speed",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1801,
+    "datatype": "uint8",
+    "name": "LTE_Status",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1802,
+    "datatype": "uint32",
+    "name": "Track_Info_Control_Begin_ACK",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": ""
+  },
+  {
+    "can_id": 1803,
+    "datatype": "uint8",
+    "name": "Track_Info_Control_Packet_ACK",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": ""
+  },
+  {
+    "can_id": 1825,
+    "datatype": "float32",
+    "name": "TPMS_Tire_1_Pressure",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": ""
+  },
+  {
+    "can_id": 1825,
+    "datatype": "float32",
+    "name": "TPMS_Tire_1_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": ""
+  },
+  {
+    "can_id": 1826,
+    "datatype": "float32",
+    "name": "TPMS_Tire_2_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": ""
+  },
+  {
+    "can_id": 1826,
+    "datatype": "float32",
+    "name": "TPMS_Tire_2_Pressure",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": ""
+  },
+  {
+    "can_id": 1827,
+    "datatype": "float32",
+    "name": "TPMS_Tire_3_Pressure",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": ""
+  },
+  {
+    "can_id": 1827,
+    "datatype": "float32",
+    "name": "TPMS_Tire_3_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": ""
+  },
+  {
+    "can_id": 1828,
+    "datatype": "float32",
+    "name": "TPMS_Tire_4_Pressure",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": ""
+  },
+  {
+    "can_id": 1828,
+    "datatype": "float32",
+    "name": "TPMS_Tire_4_Temperature",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": ""
+  },
+  {
+    "can_id": 2000,
+    "datatype": "uint32",
+    "name": "x7D0_High",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": ""
+  },
+  {
+    "can_id": 2000,
+    "datatype": "uint32",
+    "name": "x7D0_Low",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": ""
+  },
+  {
+    "can_id": 65535,
+    "datatype": "float32",
+    "name": "Test",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
+    "description": "For testing purposes"
+  }
+]
