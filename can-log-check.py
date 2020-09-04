@@ -8,10 +8,6 @@ from si_prefix import si_format
 import datetime
 from hurry.filesize import size
 
-
-
-
-
 outputFreq = 10 # Hz
 DEBUG = False
 
@@ -151,7 +147,7 @@ print(f"\u0394t: max = {si_format(deltaTmax)}s, min = {si_format(deltaTmin)}s, m
 plt.plot(deltaTs)
     
 #%% Do math on dops
-if sum(drops) > 0:
+if totalDropped > 0:
     dropsExist = True
 else:
     dropsExist = False
@@ -168,7 +164,7 @@ if dropsExist:
 else:
     print("no stats on drops if no drops :)")
 
-#%%
+#%% find gaps between large drops
 if dropsExist:
     inds = [i for i,value in enumerate(drops) if value > 40]
     # lazy trigger holdoff
