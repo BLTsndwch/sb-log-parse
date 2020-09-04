@@ -27,14 +27,15 @@ print("Found configs: ", configpaths)
 
 #%% parse configs
 class CanFrameInfo(object):
-    def __init__(self,id,checkBounds,datatype,maxValue,minValue,name,offset):
+    def __init__(self,id,datatype,name,offset,checkBounds,minValue=None,maxValue=None,description=None):
         self.id = id
+        self.description = description
         self.checkBounds = checkBounds
         self.dataTypeStr = datatype.rstrip()
         self.maxValue = maxValue
         self.minValue = minValue
         self.name = name
-        self.offset = offset
+        self.offset = offset # Offset in bytes
 
         self.currentValue = None
         self.dataWidth = None
@@ -60,31 +61,32 @@ class CanFrameInfo(object):
             self.dataWidth = 4
             self.parsestr = r'<' + r'x' * self.offset + r'I' + r'x' * (8 - self.offset - self.dataWidth)
         elif self.dataTypeStr == 'bit':
-            byteOffset = self.offset // 8
+            self.bitMask = 2**(7-(offset%8))
+            self.offset = self.offset // 8
             self.datatype = bool
             self.dataWidth = 1
-            self.parsestr = r'<' + r'x' * byteOffset + r'B' + r'x' * (8 - byteOffset - self.dataWidth)
+            self.parsestr = r'<' + r'x' * self.offset + r'B' + r'x' * (8 - self.offset - self.dataWidth)
 
 
     def parse(self, candata):
+        self.parsestr = self.parsestr[:len(candata)+1]
         if self.dataTypeStr == 'bit':
-            mask = 2**(7 - (self.offset % 8))
-
-            self.currentValue = self.datatype(struct.unpack(self.parsestr, candata)[0] & mask)
+            self.currentValue = self.datatype(struct.unpack(self.parsestr, candata)[0] & self.bitMask)
             
         else:
-            self.currentValue = self.datatype(struct.unpack(self.parsestr, candata)[0])
-    
+            try:
+                self.currentValue = self.datatype(struct.unpack(self.parsestr, candata)[0])
+            except Exception as ex:
+                print("Failed to parse:", ex)
+                print(f"{self.id}, {self.datatype}")
+                print("\t", candata)
+                print("\t", self.parsestr)
+
     def __repr__(self):
-        info = "{{\n\tid: {}\n\tcheck: {}\n\tdatatype: {}\n\t"
-        info = info + "maxValue: {}\n\tminValue: {}\n\t"
-        info = info + "name: {}\n\toffset: {}\n\t"
-        info = info + "width = {}\n\t"
-        info = info + "parsestr: {}\n}}"
-        info = info.format(self.id, self.checkBounds, self.dataTypeStr,
-            self.maxValue, self.minValue,  
-            self.name, self.offset, self.dataWidth,
-            self.parsestr)
+        info = f"""id={self.id} offset={self.offset} name={self.name}
+        description={self.description}
+        checkBounds={self.checkBounds} minValue={self.minValue} maxValue={self.maxValue}
+        parseStr={self.parsestr}"""
 
         return info
 
@@ -100,16 +102,17 @@ for configPath in configpaths:
             database[config['can_id']] = []
 
         database[config['can_id']].append(CanFrameInfo(
-            config.get('can_id', None),
-            config.get('check_bounds', None),
-            config.get('datatype', None),
-            config.get('max_value', None),
-            config.get('min_value', None),
-            config.get('name', None),
-            config.get('offset', None)
+            id=config.get('can_id', None),
+            datatype=config.get('datatype', None),
+            name=config.get('name', None),
+            offset=config.get('offset', None),
+            checkBounds=config.get('check_bounds', None),
+            minValue=config.get('min_value', None),
+            maxValue=config.get('max_value', None),
+            description=config.get('description', None)
         ))
 
-dlcs = []
+dlcs = {}
 headerlist = ['time']
 headerstr = ""
 for canid in sorted(database.items()):
@@ -117,27 +120,24 @@ for canid in sorted(database.items()):
     highestByte = 0
     for datum in canid[1]:
         offset = datum.offset
-        if datum.dataTypeStr == "bit":
-            offset = offset / 8
         if (datum.dataWidth + offset) > highestByte:
             highestByte = datum.dataWidth + datum.offset
 
         headerlist.append(datum.name)
         headerstr = headerstr + datum.name + ", " 
     headerstr = headerstr[:-2] # remove trailing ,
-    # if highestByte > 8:
+    if highestByte > 8:
 
-    #     print(canid[0])
+        print("Too big", canid)
     # print(canid[0], highestByte)
     # dlcs[canid[0]] = highestByte
-    dlcs.append(highestByte)
+    dlcs[canid[0]] = highestByte
     
 # print(headerstr)
+print("Config parse done.")
 
-#%% op
-
-
-driveRoot = "J:"
+#%%
+driveRoot = "D:"
 
 logPath = driveRoot
 #find folder
@@ -166,14 +166,13 @@ ptrn = r"^\s*(?P<time>\d*.\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[
 mtch = re.compile(pattern=ptrn)
 x = None
 fails = 0
-totalDropped = 0
-tickRate = 100 # Hz
-# with open("file.log") as inputdata:
 firstTime = None
 lastTime = None
 times = []
 outputLines = []
-fakeLogRate = 5 # Create output log at this freq
+unknownIds = set()
+countsPerIdnt = {}
+fakeLogRate = 1 # Create output log at this freq
 fakeLogPeriod = 1/fakeLogRate
 currentLogTime = 0
 lastLogTime = 0
@@ -186,9 +185,6 @@ with open(fileLogPath) as inputdata:
             continue
         # print('\n' + line.rstrip())
 
-
-        # skip fake IDNT arduino puts out
-        
         try:
             result = mtch.fullmatch(line.rstrip()).groupdict()
         except Exception as ex:
@@ -204,54 +200,58 @@ with open(fileLogPath) as inputdata:
         lastTime = time
         
         idnt = int(result["id"], 16)
-        if idnt == 0x708 or idnt ==0x0:
-            continue
+        countsPerIdnt[idnt] = countsPerIdnt.get(idnt, 0) + 1
+        # if idnt == 0x708 or idnt ==0x0:
+        #     continue
         dlc = int(result["dlc"], 10)
         fulldata = []
         if dlc > 0:
             if result['data'].endswith(','):
                 result['data'] = result['data'][:-1]
             try:
-                fulldata = [int(x, 10) for x in result["data"].split(",")]
+                fulldata = [int(x, 16) for x in result["data"].split(",")]
             except Exception as ex:
-                print(ex)
+                print("failed while trying to get data array: ", ex)
+        # if linenum < 100 and len(fulldata) != 8:
+        #     print(f"line{linenum} id{idnt} had less than 8")
         if dlc != len(fulldata):
-            print("DLC mismatch!")
-
+            print(f"DLC mismatch on line {linenum}!")
+        # if linenum < 100 and dlcs.get(idnt) and dlc != dlcs[idnt]:
+        #     print(f"calc DLC mismatch on line {linenum}! Id {idnt} Expect {dlcs[idnt]} got {dlc}")
 
         if idnt not in database:
-            print("idnt not found ", hex(idnt))
+            # print("idnt not found", hex(idnt))
+            # print("Frame not in database: id={}, data={}".format(hex(idnt), fulldata))
+            unknownIds.add(idnt)
+        else:
+            x = bytearray(fulldata)
+            # parse each datum in the can data frame for this id
+            for canObj in database[idnt]:
+                # print("trying to parrse name = ", canObj.name)
+
+                # print("type ", canObj.dataTypeStr, " off ", canObj.offset)
+                # try:
+                canObj.parse(x)
+                # except Exception as ex:
+                #     print(f"fail to parse line {linenum}:",ex, line)
+                #     pass
+                # print("got value: ", canObj.currentValue)
+
+
+            # print the fake log
+            currentLogTime = time
+            if (currentLogTime - lastLogTime) > fakeLogPeriod:
+                lastLogTime = currentLogTime
+                # lineToLog = ""    
+                numbersToLog = [currentLogTime]
+                for canid in sorted(database.items()):
+                    for datum in canid[1]:
+                        numbersToLog.append(datum.currentValue)
+                        # lineToLog += str(datum.currentValue) + ","
+                # lineToLog = lineToLog + "\n"
+                outputLines.append(numbersToLog)
+                fakeLogCount += 1
         
-        # print("Frame: id={}, data={}".format(hex(idnt), fulldata))
-        
-        x = bytearray(fulldata)
-        # parse each datum in the can data frame for this id
-        for canObj in database[idnt]:
-            # print("trying to parrse name = ", canObj.name)
-
-            # print("type ", canObj.dataTypeStr, " off ", canObj.offset)
-            canObj.parse(x)
-            # print("got value: ", canObj.currentValue)
-
-
-        # print the fake log
-        currentLogTime = time
-        if (currentLogTime - lastLogTime) > fakeLogPeriod:
-            lastLogTime = currentLogTime
-            # lineToLog = ""    
-            numbersToLog = [currentLogTime]
-            for canid in sorted(database.items()):
-                for datum in canid[1]:
-                    numbersToLog.append(datum.currentValue)
-                    # lineToLog += str(datum.currentValue) + ","
-            # lineToLog = lineToLog + "\n"
-            outputLines.append(numbersToLog)
-            fakeLogCount += 1
-        
-
-
-    
-
 
 
     timeTaken = (lastTime-firstTime)
@@ -268,11 +268,16 @@ with open(fileLogPath) as inputdata:
 
     plt.plot(times)
 
+    print("Unknown IDs:", list(map(hex,sorted(unknownIds))))
+
 
 #%% output csv
 
 df = pandas.DataFrame(outputLines, columns=headerlist)
 
-df.to_csv(r"test.csv")
-
+df.to_csv(r"test.csv", index=False)
+print("CSV saved.")
 # df
+# %%
+
+# %%
