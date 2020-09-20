@@ -9,10 +9,18 @@ import pandas
 import datetime
 import statistics
 import matplotlib.pyplot as plt
+import argparse
 from si_prefix import si_format
+import sys
 
 
-configFolder = r".\configs"
+parser = argparse.ArgumentParser(description="Parse a SensorBoard can log")
+parser.add_argument('inputFile', nargs='*', default=None, help="the can log to parse")
+args = parser.parse_args()
+
+dirname = os.path.dirname(__file__)
+configFolder = os.path.join(dirname, 'configs')
+# configFolder = r"configs"
 configpaths = []
 
 for file in os.listdir(configFolder):
@@ -69,7 +77,10 @@ class CanFrameInfo(object):
 
 
     def parse(self, candata):
-        self.parsestr = self.parsestr[:len(candata)+1]
+        candata = candata
+        if len(candata) < 8:
+            for _ in range(8-len(candata)):
+                candata.append(0)
         if self.dataTypeStr == 'bit':
             self.currentValue = self.datatype(struct.unpack(self.parsestr, candata)[0] & self.bitMask)
             
@@ -78,8 +89,8 @@ class CanFrameInfo(object):
                 self.currentValue = self.datatype(struct.unpack(self.parsestr, candata)[0])
             except Exception as ex:
                 print("Failed to parse:", ex)
-                print(f"{self.id}, {self.datatype}")
-                print("\t", candata)
+                print(f"canid {self.id}, {self.datatype}")
+                print("\t", len(candata), candata)
                 print("\t", self.parsestr)
 
     def __repr__(self):
@@ -137,29 +148,34 @@ for canid in sorted(database.items()):
 print("Config parse done.")
 
 #%%
-driveRoot = "D:"
 
-logPath = driveRoot
-#find folder
-yearList = [x for x in os.listdir(logPath) if x.isdigit()]
-year = sorted(yearList)[-1]
-logPath += '\\' + year
-monthList = [x for x in os.listdir(logPath) if x.isdigit()]
-month = sorted(monthList)[-1]
-logPath += '\\' + month
-dayList = [x for x in os.listdir(logPath) if x.isdigit()]
-day = sorted(dayList)[-1]
-logPath += '\\' + day
+if not args.inputFile:
+    driveRoot = r"/media/ben/SENSORBOARD/"
 
-fileName = sorted(os.listdir(logPath))[-1]
-hour = int(fileName[0:2])
-mininute = int(fileName[2:4])
-seccond = int(fileName[4:6])
+    logPath = driveRoot
+    #find folder
+    yearList = [x for x in os.listdir(logPath) if x.isdigit()]
+    year = sorted(yearList)[-1]
+    logPath = os.path.join(logPath, year)
+    monthList = [x for x in os.listdir(logPath) if x.isdigit()]
+    month = sorted(monthList)[-1]
+    logPath = os.path.join(logPath, month)
+    dayList = [x for x in os.listdir(logPath) if x.isdigit()]
+    day = sorted(dayList)[-1]
+    logPath = os.path.join(logPath, day)
 
-(year, month, day, hour, mininute, seccond, logPath, fileName)
+    filesInFolder = [x for x in os.listdir(logPath) if not x.endswith(".csv")]
 
-fileLogPath = logPath + '\\' + fileName
+    fileName = sorted(filesInFolder)[-1]
+    hour = int(fileName[0:2])
+    mininute = int(fileName[2:4])
+    seccond = int(fileName[4:6])
 
+    (year, month, day, hour, mininute, seccond, logPath, fileName)
+
+    fileLogPath = os.path.join(logPath, fileName)
+else:
+    fileLogPath = args.inputFile
 
 # ptrn = r"\s*(?P<time>\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 ptrn = r"^\s*(?P<time>\d*.\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
@@ -172,7 +188,7 @@ times = []
 outputLines = []
 unknownIds = set()
 countsPerIdnt = {}
-fakeLogRate = 1 # Create output log at this freq
+fakeLogRate = 10 # Create output log at this freq
 fakeLogPeriod = 1/fakeLogRate
 currentLogTime = 0
 lastLogTime = 0
@@ -251,6 +267,13 @@ with open(fileLogPath) as inputdata:
                 # lineToLog = lineToLog + "\n"
                 outputLines.append(numbersToLog)
                 fakeLogCount += 1
+
+    numbersToLog = [currentLogTime]
+    for canid in sorted(database.items()):
+        for datum in canid[1]:
+            numbersToLog.append(datum.currentValue)
+    outputLines.append(numbersToLog)
+    fakeLogCount += 1
         
 
 
@@ -275,8 +298,11 @@ with open(fileLogPath) as inputdata:
 
 df = pandas.DataFrame(outputLines, columns=headerlist)
 
-df.to_csv(r"test.csv", index=False)
-print("CSV saved.")
+
+outputFilePath, _ = os.path.splitext(fileLogPath)
+outputFilePath += r'.csv'
+df.to_csv(outputFilePath, index=False)
+print("CSV saved to", outputFilePath)
 # df
 # %%
 
