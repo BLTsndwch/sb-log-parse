@@ -13,11 +13,13 @@ import argparse
 from si_prefix import si_format
 import sys
 
-
+#%% args
 parser = argparse.ArgumentParser(description="Parse a SensorBoard can log")
 parser.add_argument('inputFile', nargs='*', default=None, help="the can log to parse")
 args = parser.parse_args()
 
+
+#%% files
 dirname = os.path.dirname(__file__)
 configFolder = os.path.join(dirname, 'configs')
 # configFolder = r"configs"
@@ -148,7 +150,8 @@ for canid in sorted(database.items()):
 print("Config parse done.")
 
 #%%
-
+args = {'inputFile': None}
+args.inputFile = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\2020\08\19\221358"
 if not args.inputFile:
     driveRoot = r"/media/ben/SENSORBOARD/"
 
@@ -177,6 +180,10 @@ if not args.inputFile:
 else:
     fileLogPath = args.inputFile
 
+
+#%%
+# fileLogPath = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\2020\08\19\221358_recon"
+fileLogPath = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\recon\221358_recon"
 # ptrn = r"\s*(?P<time>\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 ptrn = r"^\s*(?P<time>\d*.\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 mtch = re.compile(pattern=ptrn)
@@ -259,15 +266,19 @@ with open(fileLogPath) as inputdata:
             if (currentLogTime - lastLogTime) > fakeLogPeriod:
                 lastLogTime = currentLogTime
                 # lineToLog = ""    
-                numbersToLog = [currentLogTime]
-                for canid in sorted(database.items()):
-                    for datum in canid[1]:
-                        numbersToLog.append(datum.currentValue)
-                        # lineToLog += str(datum.currentValue) + ","
+                numbersToLog = [currentLogTime] + [None] * (len(headerlist)-1)
+                
+                for i, canid in enumerate(sorted(database.items())):
+                    if canid[0] == idnt:
+                        for j, datum in enumerate(canid[1]):
+                            numbersToLog[i+i+j] = datum.currentValue
+                            # lineToLog += str(datum.currentValue) + ","
                 # lineToLog = lineToLog + "\n"
                 outputLines.append(numbersToLog)
                 fakeLogCount += 1
+            break
 
+#%%
     numbersToLog = [currentLogTime]
     for canid in sorted(database.items()):
         for datum in canid[1]:
