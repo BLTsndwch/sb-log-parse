@@ -14,6 +14,7 @@ import matplotlib.ticker as mticker
 import argparse
 from si_prefix import si_format
 import sys
+import wget
 
 #%% args
 parser = argparse.ArgumentParser(description="Parse a SensorBoard can log")
@@ -24,7 +25,10 @@ args = parser.parse_args()
 #%% files
 dirname = os.path.dirname(__file__)
 configFolder = os.path.join(dirname, 'configs')
-# configFolder = r"configs"
+
+configUrl = r"https://solarracing.me/api/configs"
+wget.download(configUrl, out=r'./configs/fetchedConfig.json')
+configFolder = r"configs"
 configpaths = []
 
 for file in os.listdir(configFolder):
@@ -36,6 +40,8 @@ print("Found configs: ", configpaths)
 # print(json.dumps(canformat, indent=4, sort_keys=True))
 # for x in canformat:
     # print("{}\n".format(x["can_id"]))
+
+
 
 #%% parse configs
 class CanFrameInfo(object):
@@ -100,7 +106,8 @@ class CanFrameInfo(object):
         info = f"""id={self.id} offset={self.offset} name={self.name}
         description={self.description}
         checkBounds={self.checkBounds} minValue={self.minValue} maxValue={self.maxValue}
-        parseStr={self.parsestr}"""
+        parseStr={self.parsestr}
+        currentValue={self.currentValue}"""
 
         return info
 
@@ -244,12 +251,10 @@ with open(fileLogPath) as inputdata:
                 fulldata = [int(x, 16) for x in result["data"].split(",")]
             except Exception as ex:
                 print("failed while trying to get data array: ", ex)
-        # if linenum < 100 and len(fulldata) != 8:
-        #     print(f"line{linenum} id{idnt} had less than 8")
+
         if dlc != len(fulldata):
-            print(f"DLC mismatch on line {linenum}!")
-        # if linenum < 100 and dlcs.get(idnt) and dlc != dlcs[idnt]:
-        #     print(f"calc DLC mismatch on line {linenum}! Id {idnt} Expect {dlcs[idnt]} got {dlc}")
+            print(f"DLC mismatch on line {linenum}! CAN config may be incorrect.")
+
 
         if idnt not in database:
             # print("idnt not found", hex(idnt))
@@ -298,11 +303,24 @@ with open(fileLogPath) as inputdata:
     stddev = statistics.stdev(times)
     median = statistics.median(times)
     print(f"\u0394t: mean = {si_format(mean)}s, median = {si_format(median)}s, stdev = {si_format(stddev)}s")
-    plt.rcParams['figure.figsize'] = [5, 4]
-    plt.rcParams['figure.dpi'] = 200 
-    plt.plot(times)
-
     print("Unknown IDs:", list(map(hex,sorted(unknownIds))))
+    newSata = pandas.Series(times).rolling(window=int(len(times)/30)).mean()
+    plt.rcParams.update({
+        "figure.facecolor":  (1.0, 1.0, 1.0, 1),
+        "axes.facecolor":    (1.0, 1.0, 1.0, 1),
+        "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+        'figure.figsize' : [7,4]
+    })
+    fig, ax = plt.subplots()
+    ax.set_xlabel("CAN log line number")
+    ax.set_ylabel("Smoothed time between frames (s)")
+    ax.set_title("Rolling mean time between consecutive frames")
+    ax.grid(True)
+    ax.plot(newSata)
+    ax.set_xlim(0, len(times))
+    plt.savefig("CAN_interframe_times")
+    plt.show()
+
 
 #%% preform stats on the arrival times
 deltaTs = {}
@@ -318,15 +336,23 @@ for idnt in arrivalTimes:
     deltaTstats[idnt]['stddev'] = statistics.stdev(deltaTs[idnt])
     deltaTstats[idnt]['median'] = statistics.median(deltaTs[idnt])
 
-#%%
-mean = statistics.mean(deltaTs)
-stddev = statistics.stdev(deltaTs)
-median = statistics.median(deltaTs)
-print(f"\u0394t: mean = {si_format(mean)}s, median = {si_format(median)}s, stdev = {si_format(stddev)}s")
-
-plt.plot(deltaTs)
 
 #%% Plot stats
+def annotate(plt, canid, text = "", units="", xOffset = 1.5, yOffset = 1.5):
+    if  text:
+        plotText = text
+    elif canid in database:
+        names = [cfg.name for cfg in database[canid]]
+        plotText = "\n".join(names)
+    else:
+        plotText = f"0x{canid:x}"
+    if units:
+        plotText = plotText + f" ({yvals[xvals.index(canid)]:0.1f} {units})"
+    plt.annotate(plotText, xy=(xvals.index(canid), yvals[xvals.index(canid)]), 
+        arrowprops=dict(facecolor='black', shrink=0.1),
+        xytext=(xvals.index(canid)+xOffset, yvals[xvals.index(canid)]+yOffset))
+
+
 xvals = []
 yvals = []
 colors = []
@@ -352,6 +378,7 @@ counts = {
     'mppt' : 0,
     'other' : 0
 }
+unitStr = "Hz"
 errorCap = 10
 for key in sorted(countsPerIdnt.keys()):
     xvals.append(key)
@@ -383,10 +410,15 @@ for key in sorted(countsPerIdnt.keys()):
     else:
         colors.append(colorConfigs['other'])
         counts['other'] += 1
-
+plt.rcParams.update({
+    "figure.facecolor":  (1.0, 1.0, 1.0, 1),
+    "axes.facecolor":    (1.0, 1.0, 1.0, 1),
+    "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+    'figure.figsize' : [20, 8],
+    'figure.dpi' : 200
+})
 fig, ax = plt.subplots()
-plt.rcParams['figure.figsize'] = [20, 8]
-plt.rcParams['figure.dpi'] = 200 
+
 ax.bar(range(len(xvals)), yvals, align='center', color=colors, yerr=errorBars)
 plt.xticks(range(len(xvals)), [hex(val) for val in xvals])
 plt.xticks(rotation=75)
@@ -402,27 +434,15 @@ plt.title(f'Frequency of CAN IDs from {startTimeStr} to {endTimeStr} ({datetime.
 plt.grid(True, which='major', axis='y')
 plt.grid(True, which='minor', alpha=0.25, axis='y')
 plt.legend(('label1', 'label2', 'label3'))
-# ax.set_minor_locator(mticker.AutoMinorLocator())
-# plt.annotate('BMS Current/SoC', xy=(xvals.index(0x342), yvals[xvals.index(0x342)]),
-#     arrowprops=dict(facecolor='black', shrink=0.15),
-#     xytext=(xvals.index(0x342)-10, yvals[xvals.index(0x342)]+1))
-# plt.annotate('Unknown?', xy=(xvals.index(0x712), yvals[xvals.index(0x712)]),
-#     arrowprops=dict(facecolor='black', shrink=0.15),
-#     xytext=(xvals.index(0x712)+2, yvals[xvals.index(0x712)]+2))
 
-plt.annotate('Right RPM', xy=(list(sorted(countsPerIdnt.keys())).index(0x403), countsPerIdnt[0x403]/timeTaken),
-    xytext=(list(sorted(countsPerIdnt.keys())).index(0x403)+4, countsPerIdnt[0x403]/timeTaken-1), arrowprops=dict(facecolor='black', shrink=0.15))
-plt.annotate('Left RPM', xy=(list(sorted(countsPerIdnt.keys())).index(0x423), countsPerIdnt[0x423]/timeTaken),
-    xytext=(list(sorted(countsPerIdnt.keys())).index(0x423)+4, countsPerIdnt[0x423]/timeTaken-1), arrowprops=dict(facecolor='black', shrink=0.15))
+annotate(plt, 0x403, "Right RPM", units=unitStr)
+annotate(plt, 0x423, "Left RPM", units=unitStr)
+
+annotate(plt, 0x437, units=unitStr)
+
 plt.legend(handles=patches, loc=1)
-plt.rcParams.update({
-    "figure.facecolor":  (1.0, 1.0, 1.0, 1),
-    "axes.facecolor":    (1.0, 1.0, 1.0, 1),
-    "savefig.facecolor": (1.0, 1.0, 1.0, 1)
-})
-plt.savefig('CAN_Freq', dpi=400, transparent=False)
+plt.savefig('CAN_Freq', dpi=200, transparent=False)
 plt.show()
-
 
 vals = []
 labels = []
@@ -433,15 +453,16 @@ for key, value in counts.items():
     vals.append(value)
     labels.append(key)
     colors.append(colorConfigs.get(key, 'tab:grey'))
-plt.pie(vals, colors=colors, labels=labels, autopct='%1.1f%%')
-plt.rcParams['figure.dpi'] = 100 
-plt.title(f'Percentage of frames counted over {datetime.timedelta(seconds=round(timeTaken))} h:mm:ss.')
 plt.rcParams.update({
     "figure.facecolor":  (1.0, 1.0, 1.0, 1),
     "axes.facecolor":    (1.0, 1.0, 1.0, 1),
-    "savefig.facecolor": (1.0, 1.0, 1.0, 1)
+    "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+    'figure.figsize' : [4,4]
 })
-plt.savefig('CAN_Pie', dpi=400, transparent=False)
+plt.pie(vals, colors=colors, labels=labels, autopct='%1.1f%%')
+plt.rcParams['figure.dpi'] = 100 
+plt.title(f'Percentage of frames counted over {datetime.timedelta(seconds=round(timeTaken))} h:mm:ss.')
+plt.savefig('CAN_Pie', dpi=200, transparent=False)
 plt.show()
 #%% output csv
 
@@ -449,20 +470,6 @@ df = pandas.DataFrame(outputLines, columns=headerlist)
 
 
 outputFilePath, _ = os.path.splitext(fileLogPath)
-outputFilePath += r'_new2.csv'
+outputFilePath += r'_parsed.csv'
 df.to_csv(outputFilePath, index=False)
 print("CSV saved to", outputFilePath)
-
-#%% output xlsx
-
-# df = pandas.DataFrame(outputLines, columns=headerlist)
-
-
-outputFilePath, _ = os.path.splitext(fileLogPath)
-outputFilePath += r'_new2.xlsx'
-df.to_excel(outputFilePath, index=False)
-print("CSV saved to", outputFilePath)
-# df
-# %%
-
-# %%
