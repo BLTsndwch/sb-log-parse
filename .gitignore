@@ -1,4 +1,7 @@
 logParseEnv/
+.vscode/
 
 # ignore outputs
 *.csv
+*.png
+*.json
