@@ -42,16 +42,6 @@
   {
     "can_id": 385,
     "datatype": "float32",
-    "name": "MG_1_Input_Voltage",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 120,
-    "description": "Voltage of the array connected to MG 1"
-  },
-  {
-    "can_id": 385,
-    "datatype": "float32",
     "name": "MG_1_Input_Current",
     "offset": 0,
     "check_bounds": true,
@@ -60,34 +50,44 @@
     "description": "Current produced by the array connected to MG 1 (in mA)"
   },
   {
-    "can_id": 515,
-    "datatype": "bit",
-    "name": "GPIO_Board_A_Brake_Switch",
+    "can_id": 385,
+    "datatype": "float32",
+    "name": "MG_1_Input_Voltage",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": "Voltage of the array connected to MG 1"
+  },
+  {
+    "can_id": 513,
+    "datatype": "uint8",
+    "name": "GPIO_Board_Subscribe",
     "offset": 0,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "Brake switch state (inverted)"
+    "description": "Peripheral Board subscribing to the GPIO Board"
+  },
+  {
+    "can_id": 514,
+    "datatype": "float32",
+    "name": "GPIO_Board_Acknowledge",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Peripheral Board acknowledging the CAN frame GPIO sent"
   },
   {
     "can_id": 515,
     "datatype": "bit",
-    "name": "GPIO_Board_A_Left_Blinker_Switch",
-    "offset": 4,
+    "name": "GPIO_Board_A_Hazards_Switch",
+    "offset": 1,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "Left blinker switch state (inverted)"
-  },
-  {
-    "can_id": 515,
-    "datatype": "bit",
-    "name": "GPIO_Board_A_Right_Blinker_Switch",
-    "offset": 3,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "Right blinker switch state (inverted)"
+    "description": "Hazard switch state (inverted)"
   },
   {
     "can_id": 515,
@@ -102,12 +102,32 @@
   {
     "can_id": 515,
     "datatype": "bit",
-    "name": "GPIO_Board_A_Hazards_Switch",
-    "offset": 1,
+    "name": "GPIO_Board_A_Right_Blinker_Switch",
+    "offset": 3,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "Hazard switch state (inverted)"
+    "description": "Right blinker switch state (inverted)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Left_Blinker_Switch",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Left blinker switch state (inverted)"
+  },
+  {
+    "can_id": 515,
+    "datatype": "bit",
+    "name": "GPIO_Board_A_Brake_Switch",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Brake switch state (inverted)"
   },
   {
     "can_id": 640,
@@ -292,22 +312,22 @@
   {
     "can_id": 775,
     "datatype": "float32",
-    "name": "Cell_Voltage_16",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 5,
-    "description": "Voltage of Battery Module 16"
-  },
-  {
-    "can_id": 775,
-    "datatype": "float32",
     "name": "Cell_Voltage_15",
     "offset": 0,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 5,
     "description": "Voltage of Battery Module 15"
+  },
+  {
+    "can_id": 775,
+    "datatype": "float32",
+    "name": "Cell_Voltage_16",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 16"
   },
   {
     "can_id": 776,
@@ -332,22 +352,22 @@
   {
     "can_id": 777,
     "datatype": "float32",
-    "name": "Cell_Voltage_20",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 5,
-    "description": "Voltage of Battery Module 20"
-  },
-  {
-    "can_id": 777,
-    "datatype": "float32",
     "name": "Cell_Voltage_19",
     "offset": 0,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 5,
     "description": "Voltage of Battery Module 19"
+  },
+  {
+    "can_id": 777,
+    "datatype": "float32",
+    "name": "Cell_Voltage_20",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 5,
+    "description": "Voltage of Battery Module 20"
   },
   {
     "can_id": 778,
@@ -552,16 +572,6 @@
   {
     "can_id": 800,
     "datatype": "uint8",
-    "name": "Cell_Temperature_2",
-    "offset": 1,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 2"
-  },
-  {
-    "can_id": 800,
-    "datatype": "uint8",
     "name": "Cell_Temperature_7",
     "offset": 6,
     "check_bounds": true,
@@ -582,22 +592,32 @@
   {
     "can_id": 800,
     "datatype": "uint8",
+    "name": "Cell_Temperature_2",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 2"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_6",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 6"
+  },
+  {
+    "can_id": 800,
+    "datatype": "uint8",
     "name": "Cell_Temperature_4",
     "offset": 3,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
     "description": "Temperature of Battery Module 4"
-  },
-  {
-    "can_id": 800,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_5",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 5"
   },
   {
     "can_id": 800,
@@ -622,22 +642,22 @@
   {
     "can_id": 800,
     "datatype": "uint8",
-    "name": "Cell_Temperature_6",
-    "offset": 5,
+    "name": "Cell_Temperature_5",
+    "offset": 4,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 6"
+    "description": "Temperature of Battery Module 5"
   },
   {
     "can_id": 801,
     "datatype": "uint8",
-    "name": "Cell_Temperature_14",
-    "offset": 5,
+    "name": "Cell_Temperature_16",
+    "offset": 7,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 14"
+    "description": "Temperature of Battery Module 16"
   },
   {
     "can_id": 801,
@@ -648,26 +668,6 @@
     "min_value": 0,
     "max_value": 200,
     "description": "Temperature of Battery Module 10"
-  },
-  {
-    "can_id": 801,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_11",
-    "offset": 2,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 11"
-  },
-  {
-    "can_id": 801,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_12",
-    "offset": 3,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 12"
   },
   {
     "can_id": 801,
@@ -692,12 +692,32 @@
   {
     "can_id": 801,
     "datatype": "uint8",
-    "name": "Cell_Temperature_16",
-    "offset": 7,
+    "name": "Cell_Temperature_14",
+    "offset": 5,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 16"
+    "description": "Temperature of Battery Module 14"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_12",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 12"
+  },
+  {
+    "can_id": 801,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_11",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 11"
   },
   {
     "can_id": 801,
@@ -708,6 +728,36 @@
     "min_value": 0,
     "max_value": 200,
     "description": "Temperature of Battery Module 13"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_18",
+    "offset": 1,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 18"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_23",
+    "offset": 6,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 23"
+  },
+  {
+    "can_id": 802,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_22",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 22"
   },
   {
     "can_id": 802,
@@ -742,12 +792,12 @@
   {
     "can_id": 802,
     "datatype": "uint8",
-    "name": "Cell_Temperature_18",
-    "offset": 1,
+    "name": "Cell_Temperature_24",
+    "offset": 7,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 18"
+    "description": "Temperature of Battery Module 24"
   },
   {
     "can_id": 802,
@@ -760,56 +810,6 @@
     "description": "Temperature of Battery Module 17"
   },
   {
-    "can_id": 802,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_22",
-    "offset": 5,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 22"
-  },
-  {
-    "can_id": 802,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_24",
-    "offset": 7,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 24"
-  },
-  {
-    "can_id": 802,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_23",
-    "offset": 6,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 23"
-  },
-  {
-    "can_id": 803,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_32",
-    "offset": 7,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 32"
-  },
-  {
-    "can_id": 803,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_31",
-    "offset": 6,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 31"
-  },
-  {
     "can_id": 803,
     "datatype": "uint8",
     "name": "Cell_Temperature_25",
@@ -818,26 +818,6 @@
     "min_value": 0,
     "max_value": 200,
     "description": "Temperature of Battery Module 25"
-  },
-  {
-    "can_id": 803,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_27",
-    "offset": 2,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 27"
-  },
-  {
-    "can_id": 803,
-    "datatype": "uint8",
-    "name": "Cell_Temperature_29",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Temperature of Battery Module 29"
   },
   {
     "can_id": 803,
@@ -862,6 +842,16 @@
   {
     "can_id": 803,
     "datatype": "uint8",
+    "name": "Cell_Temperature_27",
+    "offset": 2,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 27"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
     "name": "Cell_Temperature_30",
     "offset": 5,
     "check_bounds": true,
@@ -870,24 +860,34 @@
     "description": "Temperature of Battery Module 30"
   },
   {
-    "can_id": 804,
+    "can_id": 803,
     "datatype": "uint8",
-    "name": "Cell_Temperature_38",
-    "offset": 5,
+    "name": "Cell_Temperature_31",
+    "offset": 6,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 38"
+    "description": "Temperature of Battery Module 31"
   },
   {
-    "can_id": 804,
+    "can_id": 803,
     "datatype": "uint8",
-    "name": "Cell_Temperature_36",
-    "offset": 3,
+    "name": "Cell_Temperature_32",
+    "offset": 7,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 36"
+    "description": "Temperature of Battery Module 32"
+  },
+  {
+    "can_id": 803,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_29",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 29"
   },
   {
     "can_id": 804,
@@ -898,6 +898,26 @@
     "min_value": 0,
     "max_value": 200,
     "description": "Temperature of Battery Module 39"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_37",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 37"
+  },
+  {
+    "can_id": 804,
+    "datatype": "uint8",
+    "name": "Cell_Temperature_36",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Temperature of Battery Module 36"
   },
   {
     "can_id": 804,
@@ -942,12 +962,12 @@
   {
     "can_id": 804,
     "datatype": "uint8",
-    "name": "Cell_Temperature_37",
-    "offset": 4,
+    "name": "Cell_Temperature_38",
+    "offset": 5,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Temperature of Battery Module 37"
+    "description": "Temperature of Battery Module 38"
   },
   {
     "can_id": 833,
@@ -1012,12 +1032,22 @@
   {
     "can_id": 836,
     "datatype": "uint8",
-    "name": "Heatsink_Temperature_2",
-    "offset": 1,
+    "name": "Heatsink_Temperature_3",
+    "offset": 2,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Heatsink temperature of the Manzanita on String 2"
+    "description": "Heatsink temperature of the Manzanita on String 3"
+  },
+  {
+    "can_id": 836,
+    "datatype": "uint8",
+    "name": "Heatsink_Temperature_1",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "Heatsink temperature of the Manzanita on String 1"
   },
   {
     "can_id": 836,
@@ -1032,16 +1062,6 @@
   {
     "can_id": 836,
     "datatype": "uint8",
-    "name": "Heatsink_Temperature_3",
-    "offset": 2,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "Heatsink temperature of the Manzanita on String 3"
-  },
-  {
-    "can_id": 836,
-    "datatype": "uint8",
     "name": "Heatsink_Temperature_4",
     "offset": 3,
     "check_bounds": true,
@@ -1052,12 +1072,12 @@
   {
     "can_id": 836,
     "datatype": "uint8",
-    "name": "Heatsink_Temperature_1",
-    "offset": 0,
+    "name": "Heatsink_Temperature_2",
+    "offset": 1,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 200,
-    "description": "Heatsink temperature of the Manzanita on String 1"
+    "description": "Heatsink temperature of the Manzanita on String 2"
   },
   {
     "can_id": 837,
@@ -1172,8 +1192,8 @@
   {
     "can_id": 843,
     "datatype": "float32",
-    "name": "BMS_Current_Limit_Discharging",
-    "offset": 0,
+    "name": "BMS_Current_Limit_Charging",
+    "offset": 4,
     "check_bounds": true,
     "min_value": -240,
     "max_value": 240,
@@ -1182,8 +1202,8 @@
   {
     "can_id": 843,
     "datatype": "float32",
-    "name": "BMS_Current_Limit_Charging",
-    "offset": 4,
+    "name": "BMS_Current_Limit_Discharging",
+    "offset": 0,
     "check_bounds": true,
     "min_value": -240,
     "max_value": 240,
@@ -1212,8 +1232,8 @@
   {
     "can_id": 845,
     "datatype": "float32",
-    "name": "BMS_Master_12V_A_Current",
-    "offset": 0,
+    "name": "BMS_Master_12V_B_Current",
+    "offset": 4,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 20,
@@ -1222,8 +1242,8 @@
   {
     "can_id": 845,
     "datatype": "float32",
-    "name": "BMS_Master_12V_B_Current",
-    "offset": 4,
+    "name": "BMS_Master_12V_A_Current",
+    "offset": 0,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 20,
@@ -1242,102 +1262,22 @@
   {
     "can_id": 1025,
     "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_Bad_Motor_Position_Hall_Sequence",
-    "offset": 19,
+    "name": "Right_Wavesculptor_Error_Config_Read_Error",
+    "offset": 21,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "The Wavesculptor experienced a bad motor position hall sequence error"
+    "description": "The Wavesculptor experienced an error reading the config"
   },
   {
     "can_id": 1025,
     "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_Motor_Over_Speed",
-    "offset": 24,
+    "name": "Right_Wavesculptor_Limit_Bus_Current",
+    "offset": 3,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "The Wavesculptor experienced a motor over speed error"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "uint8",
-    "name": "Right_Wavesculptor_CAN_Receive_Error_Count",
-    "offset": 7,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The count of receive errors from the right Wavesculptor CAN bus"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_Desaturation_Fault",
-    "offset": 23,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a desaturation fault"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_15V_Rail_Under_Voltage_Lockout",
-    "offset": 22,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a 15V rail under voltage lockout error"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "uint8",
-    "name": "Right_Wavesculptor_CAN_Transmit_Error_Count",
-    "offset": 6,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The count of transmit errors from the right Wavesculptor CAN bus"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "uint16",
-    "name": "Right_Wavesculptor_Limit_Flags",
-    "offset": 0,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "Overall limit flags for the right wavesculptor"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "uint16",
-    "name": "Right_Wavesculptor_Error_Flags",
-    "offset": 2,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "Overall error flags for the right wavesculptor"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
-    "name": "Right_Wavesculptor_Limit_Output_Voltage_PWM",
-    "offset": 0,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The output of the right wavesculptor is limited by the output voltage PWM"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
-    "name": "Right_Wavesculptor_Limit_Motor_Current",
-    "offset": 1,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The output of the right Wavesculptor is being limited by the motor current"
+    "description": "The output of the right Wavesculptor is being limited by the bus current"
   },
   {
     "can_id": 1025,
@@ -1352,12 +1292,42 @@
   {
     "can_id": 1025,
     "datatype": "bit",
-    "name": "Right_Wavesculptor_Limit_Bus_Current",
-    "offset": 3,
+    "name": "Right_Wavesculptor_Limit_Motor_Current",
+    "offset": 1,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "The output of the right Wavesculptor is being limited by the bus current"
+    "description": "The output of the right Wavesculptor is being limited by the motor current"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Limit_Output_Voltage_PWM",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the right wavesculptor is limited by the output voltage PWM"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint16",
+    "name": "Right_Wavesculptor_Error_Flags",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall error flags for the right wavesculptor"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint16",
+    "name": "Right_Wavesculptor_Limit_Flags",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall limit flags for the right wavesculptor"
   },
   {
     "can_id": 1025,
@@ -1382,36 +1352,6 @@
   {
     "can_id": 1025,
     "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_Config_Read_Error",
-    "offset": 21,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced an error reading the config"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_Software_Over_Current",
-    "offset": 17,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a software over current error"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
-    "name": "Right_Wavesculptor_Error_DC_Bus_Over_Voltage",
-    "offset": 18,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a DC bus over voltage error"
-  },
-  {
-    "can_id": 1025,
-    "datatype": "bit",
     "name": "Right_Wavesculptor_Limit_Motor_Temperature",
     "offset": 6,
     "check_bounds": false,
@@ -1430,14 +1370,84 @@
     "description": "The Wavesculptor experienced a watchdog caused last reset error"
   },
   {
-    "can_id": 1026,
-    "datatype": "float32",
-    "name": "Right_Bus_Current",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": -150,
-    "max_value": 150,
-    "description": "The DC current consumed by the right Wavesculptor"
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Desaturation_Fault",
+    "offset": 23,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a desaturation fault"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Software_Over_Current",
+    "offset": 17,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a software over current error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint8",
+    "name": "Right_Wavesculptor_CAN_Transmit_Error_Count",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of transmit errors from the right Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_DC_Bus_Over_Voltage",
+    "offset": 18,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a DC bus over voltage error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_15V_Rail_Under_Voltage_Lockout",
+    "offset": 22,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a 15V rail under voltage lockout error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "uint8",
+    "name": "Right_Wavesculptor_CAN_Receive_Error_Count",
+    "offset": 7,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of receive errors from the right Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Motor_Over_Speed",
+    "offset": 24,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a motor over speed error"
+  },
+  {
+    "can_id": 1025,
+    "datatype": "bit",
+    "name": "Right_Wavesculptor_Error_Bad_Motor_Position_Hall_Sequence",
+    "offset": 19,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a bad motor position hall sequence error"
   },
   {
     "can_id": 1026,
@@ -1448,6 +1458,16 @@
     "min_value": 0,
     "max_value": 200,
     "description": "The DC bus voltage on the right Wavesculptor"
+  },
+  {
+    "can_id": 1026,
+    "datatype": "float32",
+    "name": "Right_Bus_Current",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -150,
+    "max_value": 150,
+    "description": "The DC current consumed by the right Wavesculptor"
   },
   {
     "can_id": 1027,
@@ -1502,22 +1522,22 @@
   {
     "can_id": 1030,
     "datatype": "float32",
-    "name": "Right_Motor_Id",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": -100,
-    "max_value": 100,
-    "description": "The right motor's current through its direct axis (perpendicular to quadrature axis)"
-  },
-  {
-    "can_id": 1030,
-    "datatype": "float32",
     "name": "Right_Motor_Iq",
     "offset": 0,
     "check_bounds": true,
     "min_value": -100,
     "max_value": 100,
     "description": "The right motor's current through its quadrature axis (torque-producing)"
+  },
+  {
+    "can_id": 1030,
+    "datatype": "float32",
+    "name": "Right_Motor_Id",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 100,
+    "description": "The right motor's current through its direct axis (perpendicular to quadrature axis)"
   },
   {
     "can_id": 1031,
@@ -1582,12 +1602,92 @@
   {
     "can_id": 1057,
     "datatype": "bit",
-    "name": "Left_Wavesculptor_Error_Bad_Motor_Position_Hall_Sequence",
-    "offset": 19,
+    "name": "Left_Wavesculptor_Limit_Velocity",
+    "offset": 2,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "The Wavesculptor experienced a bad motor position hall sequence error"
+    "description": "The output of the left Wavesculptor is being limited by velocity"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Output_Voltage_PWM",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left wavesculptor is limited by the output voltage PWM"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "uint16",
+    "name": "Left_Wavesculptor_Limit_Flags",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Overall limit flags for the left wavesculptor"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "uint8",
+    "name": "Left_Wavesculptor_CAN_Transmit_Error_Count",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The count of transmit errors from the left Wavesculptor CAN bus"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Motor_Over_Speed",
+    "offset": 24,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a motor over speed error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Desaturation_Fault",
+    "offset": 23,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a desaturation fault"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Config_Read_Error",
+    "offset": 21,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced an error reading the config"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_15V_Rail_Under_Voltage_Lockout",
+    "offset": 22,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a 15V rail under voltage lockout error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Limit_Motor_Current",
+    "offset": 1,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The output of the left Wavesculptor is being limited by the motor current"
   },
   {
     "can_id": 1057,
@@ -1598,6 +1698,16 @@
     "min_value": 0,
     "max_value": 0,
     "description": "The Wavesculptor experienced a watchdog caused last reset error"
+  },
+  {
+    "can_id": 1057,
+    "datatype": "bit",
+    "name": "Left_Wavesculptor_Error_Bad_Motor_Position_Hall_Sequence",
+    "offset": 19,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The Wavesculptor experienced a bad motor position hall sequence error"
   },
   {
     "can_id": 1057,
@@ -1632,76 +1742,6 @@
   {
     "can_id": 1057,
     "datatype": "bit",
-    "name": "Left_Wavesculptor_Error_Config_Read_Error",
-    "offset": 21,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced an error reading the config"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "bit",
-    "name": "Left_Wavesculptor_Error_15V_Rail_Under_Voltage_Lockout",
-    "offset": 22,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a 15V rail under voltage lockout error"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "bit",
-    "name": "Left_Wavesculptor_Error_Desaturation_Fault",
-    "offset": 23,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a desaturation fault"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "bit",
-    "name": "Left_Wavesculptor_Error_Motor_Over_Speed",
-    "offset": 24,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The Wavesculptor experienced a motor over speed error"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "uint8",
-    "name": "Left_Wavesculptor_CAN_Transmit_Error_Count",
-    "offset": 6,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The count of transmit errors from the left Wavesculptor CAN bus"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "uint8",
-    "name": "Left_Wavesculptor_CAN_Receive_Error_Count",
-    "offset": 7,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The count of receive errors from the left Wavesculptor CAN bus"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "uint16",
-    "name": "Left_Wavesculptor_Limit_Flags",
-    "offset": 0,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "Overall limit flags for the left wavesculptor"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "bit",
     "name": "Left_Wavesculptor_Limit_Bus_Voltage_Lower",
     "offset": 5,
     "check_bounds": false,
@@ -1731,13 +1771,13 @@
   },
   {
     "can_id": 1057,
-    "datatype": "bit",
-    "name": "Left_Wavesculptor_Limit_Velocity",
-    "offset": 2,
+    "datatype": "uint8",
+    "name": "Left_Wavesculptor_CAN_Receive_Error_Count",
+    "offset": 7,
     "check_bounds": false,
     "min_value": 0,
     "max_value": 0,
-    "description": "The output of the left Wavesculptor is being limited by velocity"
+    "description": "The count of receive errors from the left Wavesculptor CAN bus"
   },
   {
     "can_id": 1057,
@@ -1748,26 +1788,6 @@
     "min_value": 0,
     "max_value": 0,
     "description": "Overall error flags for the left wavesculptor"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "bit",
-    "name": "Left_Wavesculptor_Limit_Output_Voltage_PWM",
-    "offset": 0,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The output of the left wavesculptor is limited by the output voltage PWM"
-  },
-  {
-    "can_id": 1057,
-    "datatype": "bit",
-    "name": "Left_Wavesculptor_Limit_Motor_Current",
-    "offset": 1,
-    "check_bounds": false,
-    "min_value": 0,
-    "max_value": 0,
-    "description": "The output of the left Wavesculptor is being limited by the motor current"
   },
   {
     "can_id": 1058,
@@ -1802,16 +1822,6 @@
   {
     "can_id": 1060,
     "datatype": "float32",
-    "name": "Left_Phase_C_Current",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": -1,
-    "max_value": 100,
-    "description": "RMS current flowing through phase C on the left motor"
-  },
-  {
-    "can_id": 1060,
-    "datatype": "float32",
     "name": "Left_Phase_B_Current",
     "offset": 0,
     "check_bounds": true,
@@ -1820,14 +1830,14 @@
     "description": "RMS current flowing through phase B on the left motor"
   },
   {
-    "can_id": 1061,
+    "can_id": 1060,
     "datatype": "float32",
-    "name": "Left_Motor_Vq",
-    "offset": 0,
+    "name": "Left_Phase_C_Current",
+    "offset": 4,
     "check_bounds": true,
-    "min_value": -5,
-    "max_value": 5,
-    "description": "The left motor's voltage along its quadrature axis"
+    "min_value": -1,
+    "max_value": 100,
+    "description": "RMS current flowing through phase C on the left motor"
   },
   {
     "can_id": 1061,
@@ -1838,6 +1848,16 @@
     "min_value": -10,
     "max_value": 50,
     "description": "The left motor voltage through its direct axis (perpendicular to quadrature axis)"
+  },
+  {
+    "can_id": 1061,
+    "datatype": "float32",
+    "name": "Left_Motor_Vq",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -5,
+    "max_value": 5,
+    "description": "The left motor's voltage along its quadrature axis"
   },
   {
     "can_id": 1062,
@@ -1902,22 +1922,22 @@
   {
     "can_id": 1070,
     "datatype": "float32",
-    "name": "Left_Charge_Consumed",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": -1000,
-    "max_value": 1000,
-    "description": "The amount of charge consumed by the left motor since the left Wavesculptor was last reset"
-  },
-  {
-    "can_id": 1070,
-    "datatype": "float32",
     "name": "Left_Odometer",
     "offset": 0,
     "check_bounds": true,
     "min_value": -321869,
     "max_value": 321869,
     "description": "Distance the left motor has travelled since the left Wavesculptor was last reset"
+  },
+  {
+    "can_id": 1070,
+    "datatype": "float32",
+    "name": "Left_Charge_Consumed",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -1000,
+    "max_value": 1000,
+    "description": "The amount of charge consumed by the left motor since the left Wavesculptor was last reset"
   },
   {
     "can_id": 1152,
@@ -1982,8 +2002,8 @@
   {
     "can_id": 1385,
     "datatype": "uint8",
-    "name": "MC2_CAN_RX_Errors",
-    "offset": 7,
+    "name": "MC2_CAN_TX_Errors",
+    "offset": 6,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 255,
@@ -1992,28 +2012,8 @@
   {
     "can_id": 1385,
     "datatype": "uint8",
-    "name": "NOS_Mode_Active",
-    "offset": 0,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 1,
-    "description": "Whether the driver has access to the full torque of the vehicle"
-  },
-  {
-    "can_id": 1385,
-    "datatype": "uint8",
     "name": "MC2_Cruise_Enabled",
     "offset": 1,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 1,
-    "description": ""
-  },
-  {
-    "can_id": 1385,
-    "datatype": "uint8",
-    "name": "MC2_Regen_Enabled",
-    "offset": 3,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 1,
@@ -2032,18 +2032,8 @@
   {
     "can_id": 1385,
     "datatype": "uint8",
-    "name": "MC2_Brake_Pressed",
-    "offset": 5,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 1,
-    "description": ""
-  },
-  {
-    "can_id": 1385,
-    "datatype": "uint8",
-    "name": "MC2_CAN_TX_Errors",
-    "offset": 6,
+    "name": "MC2_CAN_RX_Errors",
+    "offset": 7,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 255,
@@ -2060,64 +2050,84 @@
     "description": ""
   },
   {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Brake_Pressed",
+    "offset": 5,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "NOS_Mode_Active",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": "Whether the driver has access to the full torque of the vehicle"
+  },
+  {
+    "can_id": 1385,
+    "datatype": "uint8",
+    "name": "MC2_Regen_Enabled",
+    "offset": 3,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 1,
+    "description": ""
+  },
+  {
     "can_id": 1569,
     "datatype": "float32",
-    "name": "GPS_Longitude",
+    "name": "TB_GPS_Longitude",
     "offset": 4,
     "check_bounds": true,
     "min_value": -180,
     "max_value": 180,
-    "description": "The longitude of the car"
+    "description": "The longitude of the car; from telemboard"
   },
   {
     "can_id": 1569,
     "datatype": "float32",
-    "name": "GPS_Latitude",
+    "name": "TB_GPS_Latitude",
     "offset": 0,
     "check_bounds": true,
     "min_value": -90,
     "max_value": 90,
-    "description": "The latitude of the car"
+    "description": "The latitude of the car; from telemboard"
   },
   {
     "can_id": 1570,
     "datatype": "float32",
-    "name": "GPS_Altitude",
+    "name": "TB_GPS_Altitude",
     "offset": 0,
     "check_bounds": true,
     "min_value": -100,
     "max_value": 10000,
-    "description": "The altitude of the car"
+    "description": "The altitude of the car; from telemboard"
   },
   {
     "can_id": 1571,
     "datatype": "float32",
-    "name": "GPS_Angle",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 365,
-    "description": "The angle of which the car is traveling at"
-  },
-  {
-    "can_id": 1571,
-    "datatype": "float32",
-    "name": "GPS_Speed",
+    "name": "TB_GPS_Speed",
     "offset": 0,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 100,
-    "description": "The speed of the car"
+    "description": "The speed of the car; from telemboard"
   },
   {
-    "can_id": 1573,
+    "can_id": 1571,
     "datatype": "float32",
-    "name": "Yaw",
-    "offset": 0,
+    "name": "TB_GPS_Angle",
+    "offset": 4,
     "check_bounds": true,
-    "min_value": -3.15,
-    "max_value": 3.15,
-    "description": "Angle of the car about the vertical axis"
+    "min_value": 0,
+    "max_value": 365,
+    "description": "The angle of which the car is traveling at; from telemboard"
   },
   {
     "can_id": 1573,
@@ -2127,7 +2137,17 @@
     "check_bounds": true,
     "min_value": -3.15,
     "max_value": 3.15,
-    "description": "Angle of the car with respect to the ground (hill inclination)"
+    "description": "Angle of the car with respect to the ground (hill inclination); from telemboard"
+  },
+  {
+    "can_id": 1573,
+    "datatype": "float32",
+    "name": "Yaw",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -3.15,
+    "max_value": 3.15,
+    "description": "Angle of the car about the vertical axis; from telemboard"
   },
   {
     "can_id": 1574,
@@ -2137,67 +2157,67 @@
     "check_bounds": true,
     "min_value": -3.15,
     "max_value": 3.15,
-    "description": "Angle of the car with respect to the ground (hill secondary axis of curvature)"
+    "description": "Angle of the car with respect to the ground (hill secondary axis of curvature); from telemboard"
   },
   {
     "can_id": 1577,
     "datatype": "float32",
-    "name": "Raw_Acceleration_X",
+    "name": "TB_Raw_Acceleration_X",
     "offset": 0,
     "check_bounds": true,
     "min_value": -16,
     "max_value": 16,
-    "description": "The acceleration of the car going forward"
+    "description": "The acceleration of the car going forward; from telemboard"
   },
   {
     "can_id": 1577,
     "datatype": "float32",
-    "name": "Raw_Acceleration_Y",
+    "name": "TB_Raw_Acceleration_Y",
     "offset": 4,
     "check_bounds": true,
     "min_value": -16,
     "max_value": 16,
-    "description": "The acceleration of the car going left/right"
+    "description": "The acceleration of the car going left/right; from telemboard"
   },
   {
     "can_id": 1578,
     "datatype": "float32",
-    "name": "Raw_Acceleration_Z",
+    "name": "TB_Raw_Acceleration_Z",
     "offset": 0,
     "check_bounds": true,
     "min_value": -16,
     "max_value": 16,
-    "description": "The acceleration of the car going up/down"
+    "description": "The acceleration of the car going up/down; from telemboard"
   },
   {
     "can_id": 1578,
     "datatype": "float32",
-    "name": "Acceleration_Scale",
+    "name": "TB_Acceleration_Scale",
     "offset": 4,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 8,
-    "description": "The magnitude of the acceleration"
+    "description": "The magnitude of the acceleration; from telemboard"
   },
   {
     "can_id": 1581,
     "datatype": "float32",
-    "name": "IMU_Temperature",
+    "name": "TB_IMU_Temperature",
     "offset": 0,
     "check_bounds": true,
     "min_value": -80,
     "max_value": 120,
-    "description": "The temperature of the Inertial Measurement Unit"
+    "description": "The temperature of the Inertial Measurement Unit; from telemboard"
   },
   {
     "can_id": 1582,
     "datatype": "uint8",
-    "name": "GPS_Status",
+    "name": "TB_GPS_Status",
     "offset": 0,
     "check_bounds": true,
     "min_value": 0,
     "max_value": 1,
-    "description": "Displays whether the GPS currently has a position fix"
+    "description": "Displays whether the GPS currently has a position fix; from telemboard"
   },
   {
     "can_id": 1680,
@@ -2222,22 +2242,22 @@
   {
     "can_id": 1681,
     "datatype": "float32",
-    "name": "Photon_Channel_0_Battery_Voltage",
-    "offset": 0,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 200,
-    "description": "The battery voltage (output) on Photon channel 0"
-  },
-  {
-    "can_id": 1681,
-    "datatype": "float32",
     "name": "Photon_Channel_0_Temperature",
     "offset": 4,
     "check_bounds": true,
     "min_value": -40,
     "max_value": 200,
     "description": "The temperature of the power electronics for Photon channel 0"
+  },
+  {
+    "can_id": 1681,
+    "datatype": "float32",
+    "name": "Photon_Channel_0_Battery_Voltage",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 200,
+    "description": "The battery voltage (output) on Photon channel 0"
   },
   {
     "can_id": 1682,
@@ -2412,16 +2432,6 @@
   {
     "can_id": 1826,
     "datatype": "float32",
-    "name": "TPMS_Tire_2_Temperature",
-    "offset": 4,
-    "check_bounds": true,
-    "min_value": 0,
-    "max_value": 120,
-    "description": ""
-  },
-  {
-    "can_id": 1826,
-    "datatype": "float32",
     "name": "TPMS_Tire_2_Pressure",
     "offset": 0,
     "check_bounds": true,
@@ -2430,13 +2440,13 @@
     "description": ""
   },
   {
-    "can_id": 1827,
+    "can_id": 1826,
     "datatype": "float32",
-    "name": "TPMS_Tire_3_Pressure",
-    "offset": 0,
+    "name": "TPMS_Tire_2_Temperature",
+    "offset": 4,
     "check_bounds": true,
     "min_value": 0,
-    "max_value": 100,
+    "max_value": 120,
     "description": ""
   },
   {
@@ -2447,6 +2457,16 @@
     "check_bounds": true,
     "min_value": 0,
     "max_value": 120,
+    "description": ""
+  },
+  {
+    "can_id": 1827,
+    "datatype": "float32",
+    "name": "TPMS_Tire_3_Pressure",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 100,
     "description": ""
   },
   {
@@ -2468,6 +2488,366 @@
     "min_value": 0,
     "max_value": 120,
     "description": ""
+  },
+  {
+    "can_id": 1969,
+    "datatype": "float32",
+    "name": "SB_GPS_Longitude",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -180,
+    "max_value": 180,
+    "description": "The longitude of the car; from sensorboard [degrees]"
+  },
+  {
+    "can_id": 1969,
+    "datatype": "float32",
+    "name": "SB_GPS_Latitude",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -90,
+    "max_value": 90,
+    "description": "The latitude of the car; from sensorboard"
+  },
+  {
+    "can_id": 1970,
+    "datatype": "float32",
+    "name": "SB_GPS_Altitude",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 10000,
+    "description": "The altitude of the car; from sensorboard's GPS [m]"
+  },
+  {
+    "can_id": 1971,
+    "datatype": "float32",
+    "name": "SB_GPS_Speed",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 150,
+    "description": "The speed of the car [km/h]; from sensorboard"
+  },
+  {
+    "can_id": 1971,
+    "datatype": "float32",
+    "name": "SB_GPS_Angle",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 365,
+    "description": "The angle of which the car is traveling at [degrees]; from sensorboard GPS"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "CAN_Errors",
+    "offset": 6,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for CAN errors"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "TPMS_Status",
+    "offset": 5,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for TPMS status"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "Altitude_Status",
+    "offset": 2,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for altimetry status"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "Inclinometer_Status",
+    "offset": 1,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for inclinometer status"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "SB_GPS_Status",
+    "offset": 3,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for GPS status on sensorboard"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "SB_SD_Status",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for SD logging status on sensorboard"
+  },
+  {
+    "can_id": 1979,
+    "datatype": "uint8",
+    "name": "ImuMag_Status",
+    "offset": 0,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Packed flag for inertial measurement unit and magnetometer status"
+  },
+  {
+    "can_id": 1980,
+    "datatype": "float32",
+    "name": "SB_IMU_Accel_Y",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going left/right [g]; from sensorboard IMU"
+  },
+  {
+    "can_id": 1980,
+    "datatype": "float32",
+    "name": "SB_IMU_Accel_X",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going forward [g]; from sensorboard IMU"
+  },
+  {
+    "can_id": 1981,
+    "datatype": "uint8",
+    "name": "SB_IMU_Status",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Status of IMU on sensorboard"
+  },
+  {
+    "can_id": 1981,
+    "datatype": "float32",
+    "name": "SB_IMU_Accel_Z",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going up/down [g]; from sensorboard IMU"
+  },
+  {
+    "can_id": 1982,
+    "datatype": "float32",
+    "name": "IMU_Gyro_Y",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -2000,
+    "max_value": 2000,
+    "description": "The angluar velocity of the car on the Y axis [deg/s]"
+  },
+  {
+    "can_id": 1982,
+    "datatype": "float32",
+    "name": "IMU_Gyro_X",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -2000,
+    "max_value": 2000,
+    "description": "The angluar velocity of the car on the X axis [deg/s]"
+  },
+  {
+    "can_id": 1983,
+    "datatype": "float32",
+    "name": "IMU_Gyro_Z",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -2000,
+    "max_value": 2000,
+    "description": "The angluar velocity of the car on the Z axis"
+  },
+  {
+    "can_id": 1983,
+    "datatype": "uint8",
+    "name": "IMU_Gyro_Status",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The status of the gyroscope on sensorboard's IMU"
+  },
+  {
+    "can_id": 1984,
+    "datatype": "float32",
+    "name": "IMU_Mag_X",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -4900,
+    "max_value": 4900,
+    "description": "The magnetic field experienced by the car on the X axis"
+  },
+  {
+    "can_id": 1984,
+    "datatype": "float32",
+    "name": "IMU_Mag_Y",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -4900,
+    "max_value": 4900,
+    "description": "The magnetic field experienced by the car on the Y axis"
+  },
+  {
+    "can_id": 1985,
+    "datatype": "float32",
+    "name": "IMU_Mag_Z",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -4900,
+    "max_value": 4900,
+    "description": "The magnetic field experienced by the car on the Z axis"
+  },
+  {
+    "can_id": 1985,
+    "datatype": "uint8",
+    "name": "IMU_Mag_Status",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "The status of the magnetometer on sensorboard's IMU"
+  },
+  {
+    "can_id": 1986,
+    "datatype": "float32",
+    "name": "INCL_Ang_X",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -90,
+    "max_value": 90,
+    "description": "Angle of the car about the X axis; from sensorboard's inclinometer"
+  },
+  {
+    "can_id": 1986,
+    "datatype": "float32",
+    "name": "INCL_Ang_Y",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -90,
+    "max_value": 90,
+    "description": "Angle of the car about the Y axis; from sensorboard's inclinometer"
+  },
+  {
+    "can_id": 1987,
+    "datatype": "float32",
+    "name": "INCL_Ang_Z",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -90,
+    "max_value": 90,
+    "description": "Angle of the car about the Z axis; from sensorboard's inclinometer"
+  },
+  {
+    "can_id": 1987,
+    "datatype": "uint8",
+    "name": "INCL_Status",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Status of the inclinometer on sensorboard"
+  },
+  {
+    "can_id": 1988,
+    "datatype": "float32",
+    "name": "INCL_Acc_X",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going forward; from sensorboard inclinometer"
+  },
+  {
+    "can_id": 1988,
+    "datatype": "float32",
+    "name": "INCL_Acc_Y",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going left/right; from sensorboard inclinometer"
+  },
+  {
+    "can_id": 1989,
+    "datatype": "float32",
+    "name": "INCL_TEMP",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -80,
+    "max_value": 120,
+    "description": "The temperature of the inclinometer"
+  },
+  {
+    "can_id": 1989,
+    "datatype": "float32",
+    "name": "INCL_Acc_Z",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -16,
+    "max_value": 16,
+    "description": "The acceleration of the car going up/down; from sensorboard inclinometer"
+  },
+  {
+    "can_id": 1990,
+    "datatype": "float32",
+    "name": "Altitude",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": -100,
+    "max_value": 10000,
+    "description": "The altitude above sea level accoring to sesnorboard's altimeter"
+  },
+  {
+    "can_id": 1990,
+    "datatype": "float32",
+    "name": "Alt_CFG_SeaLevelPressure",
+    "offset": 4,
+    "check_bounds": true,
+    "min_value": -40000,
+    "max_value": 40000,
+    "description": "The pressure in pascals relative to sea level"
+  },
+  {
+    "can_id": 1991,
+    "datatype": "float32",
+    "name": "Ambient_Temp",
+    "offset": 0,
+    "check_bounds": true,
+    "min_value": 0,
+    "max_value": 120,
+    "description": "The ambient temperature inside the car"
+  },
+  {
+    "can_id": 1991,
+    "datatype": "uint8",
+    "name": "ALT_Status",
+    "offset": 4,
+    "check_bounds": false,
+    "min_value": 0,
+    "max_value": 0,
+    "description": "Status of altimeter"
   },
   {
     "can_id": 2000,
