@@ -27,8 +27,8 @@ dirname = os.path.dirname(__file__)
 configFolder = os.path.join(dirname, 'configs')
 
 configUrl = r"https://solarracing.me/api/configs"
-wget.download(configUrl, out=r'./configs/fetchedConfig.json')
-configFolder = r"configs"
+wget.download(configUrl, out=os.path.join(configFolder, 'fetchedConfig.json'))
+
 configpaths = []
 
 for file in os.listdir(configFolder):
@@ -195,7 +195,9 @@ else:
 # fileLogPath = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\2020\08\19\221358_recon"
 # fileLogPath = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\recon\221358_recon"
 # fileLogPath = r"C:\temp\09\11\010958"
-fileLogPath = r"C:\temp\sd card dump\2020\10\23\032822"
+# fileLogPath = r"C:\temp\sd card dump\2020\10\23\032822"
+fileLogPath = r"/home/ben/Documents/logs/2020/10/25/023202"
+
 # ptrn = r"\s*(?P<time>\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 ptrn = r"^\s*(?P<time>\d*.\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 mtch = re.compile(pattern=ptrn)
@@ -305,13 +307,14 @@ with open(fileLogPath) as inputdata:
     stddev = statistics.stdev(times)
     median = statistics.median(times)
     print(f"\u0394t: mean = {si_format(mean)}s, median = {si_format(median)}s, stdev = {si_format(stddev)}s")
-    print("Unknown IDs:", list(map(hex,sorted(unknownIds))))
-    newSata = pandas.Series(times).rolling(window=int(len(times)/30)).mean()
+    print("IDs not in configs:", list(map(hex,sorted(unknownIds))))
+    newSata = pandas.Series(times).rolling(window=int(len(times)/100)).mean()
     plt.rcParams.update({
         "figure.facecolor":  (1.0, 1.0, 1.0, 1),
         "axes.facecolor":    (1.0, 1.0, 1.0, 1),
         "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-        'figure.figsize' : [7,4]
+        'figure.figsize' : [7,5],
+        'figure.dpi' : 200
     })
     fig, ax = plt.subplots()
     ax.set_xlabel("CAN log line number")
@@ -328,15 +331,20 @@ with open(fileLogPath) as inputdata:
 deltaTs = {}
 deltaTstats = {}
 for idnt in arrivalTimes:
-    lastTime = arrivalTimes[idnt][0]
-    deltaTs[idnt] = []
-    for time in arrivalTimes[idnt][1:]:
-        deltaTs[idnt].append(time-lastTime)
-        lastTime = time
     deltaTstats[idnt] = {}
-    deltaTstats[idnt]['mean']   = statistics.mean(deltaTs[idnt])
-    deltaTstats[idnt]['stddev'] = statistics.stdev(deltaTs[idnt])
-    deltaTstats[idnt]['median'] = statistics.median(deltaTs[idnt])
+    if len(arrivalTimes[idnt]) == 1:
+        deltaTstats[idnt]['mean']   = 0
+        deltaTstats[idnt]['stddev'] = 0
+        deltaTstats[idnt]['median'] = 0
+    else:
+        lastTime = arrivalTimes[idnt][0]
+        deltaTs[idnt] = []
+        for time in arrivalTimes[idnt][1:]:
+            deltaTs[idnt].append(time-lastTime)
+            lastTime = time
+        deltaTstats[idnt]['mean']   = statistics.mean(deltaTs[idnt])
+        deltaTstats[idnt]['stddev'] = statistics.stdev(deltaTs[idnt])
+        deltaTstats[idnt]['median'] = statistics.median(deltaTs[idnt])
 
 
 #%% Plot stats
@@ -349,7 +357,7 @@ def annotate(plt, canid, text = "", units="", xOffset = 1.5, yOffset = 1.5):
     else:
         plotText = f"0x{canid:x}"
     if units:
-        plotText = plotText + f" ({yvals[xvals.index(canid)]:0.1f} {units})"
+        plotText = plotText + f"\n({yvals[xvals.index(canid)]:0.1f} {units})"
     plt.annotate(plotText, xy=(xvals.index(canid), yvals[xvals.index(canid)]), 
         arrowprops=dict(facecolor='black', shrink=0.1),
         xytext=(xvals.index(canid)+xOffset, yvals[xvals.index(canid)]+yOffset))
@@ -376,9 +384,9 @@ counts = {
     'sensorboard' : 0,
     'rightWS' : 0,
     'leftWS' : 0,
-    'mc2' : 0,
     'mppt' : 0,
-    'other' : 0
+    'other' : 0,
+    'mc2' : 0,
 }
 unitStr = "Hz"
 errorCap = 10
@@ -416,9 +424,11 @@ plt.rcParams.update({
     "figure.facecolor":  (1.0, 1.0, 1.0, 1),
     "axes.facecolor":    (1.0, 1.0, 1.0, 1),
     "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-    'figure.figsize' : [20, 8],
-    'figure.dpi' : 200
+    'figure.figsize' : [20,8],
+    'figure.dpi' : 200,
+    'savefig.pad_inches' : 0.1,
 })
+
 fig, ax = plt.subplots()
 
 ax.bar(range(len(xvals)), yvals, align='center', color=colors, yerr=errorBars)
@@ -432,7 +442,10 @@ plt.xlabel('CAN ID')
 plt.ylabel('frames/s')
 startTimeStr = datetime.datetime.utcfromtimestamp(firstTime - 6*60*1000).strftime("%m/%d/%Y %H:%M:%S ET")
 endTimeStr = datetime.datetime.utcfromtimestamp(time- 6*60*1000).strftime("%m/%d/%Y %H:%M:%S ET")
-plt.title(f'Frequency of CAN IDs from {startTimeStr} to {endTimeStr} ({datetime.timedelta(seconds=round(timeTaken))} h:mm:ss)\n\nLarge variances capped to {errorCap}')
+titleStr = f"""
+Frequency of CAN IDs from {startTimeStr} to {endTimeStr} ({datetime.timedelta(seconds=round(timeTaken))} h:mm:ss)
+Average frame rate: {linenum/timeTaken:0.2f} frames/s. Large variances capped to {errorCap}"""
+plt.title(titleStr)
 plt.grid(True, which='major', axis='y')
 plt.grid(True, which='minor', alpha=0.25, axis='y')
 plt.legend(('label1', 'label2', 'label3'))
@@ -440,11 +453,13 @@ plt.legend(('label1', 'label2', 'label3'))
 annotate(plt, 0x403, "Right RPM", units=unitStr)
 annotate(plt, 0x423, "Left RPM", units=unitStr)
 
-annotate(plt, 0x437, units=unitStr)
+annotate(plt, 0x300, units=unitStr)
+annotate(plt, 0x342, units=unitStr)
 
 plt.legend(handles=patches, loc=1)
-plt.savefig('CAN_Freq', dpi=200, transparent=False)
+plt.savefig('CAN_Freq', transparent=False)
 plt.show()
+
 
 vals = []
 labels = []
@@ -459,12 +474,13 @@ plt.rcParams.update({
     "figure.facecolor":  (1.0, 1.0, 1.0, 1),
     "axes.facecolor":    (1.0, 1.0, 1.0, 1),
     "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-    'figure.figsize' : [4,4]
+    'figure.figsize' : [7,6],
+    'figure.dpi' : 200
 })
 plt.pie(vals, colors=colors, labels=labels, autopct='%1.1f%%')
 plt.rcParams['figure.dpi'] = 100 
 plt.title(f'Percentage of frames counted over {datetime.timedelta(seconds=round(timeTaken))} h:mm:ss.')
-plt.savefig('CAN_Pie', dpi=200, transparent=False)
+plt.savefig('CAN_Pie', transparent=False)
 plt.show()
 #%% output csv
 
