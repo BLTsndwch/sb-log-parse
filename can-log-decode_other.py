@@ -27,7 +27,17 @@ dirname = os.path.dirname(__file__)
 configFolder = os.path.join(dirname, 'configs')
 
 configUrl = r"https://solarracing.me/api/configs"
-wget.download(configUrl, out=os.path.join(configFolder, 'fetchedConfig.json'))
+mainDownloadPath = os.path.join(configFolder, 'fetchedConfig.json')
+tempDownloadPath = os.path.join(configFolder, 'fetchedConfig_new.json')
+try:
+    wget.download(configUrl, out=tempDownloadPath)
+except:
+    print("was not able to fetch new config")
+else:
+    print("fetched fresh config")
+    if os.path.exists(mainDownloadPath):
+        os.remove(mainDownloadPath)
+    os.rename(tempDownloadPath, mainDownloadPath)
 
 configpaths = []
 
@@ -36,11 +46,6 @@ for file in os.listdir(configFolder):
         configpaths.append(os.path.join(configFolder, file))
 
 print("Found configs: ", configpaths)
-
-# print(json.dumps(canformat, indent=4, sort_keys=True))
-# for x in canformat:
-    # print("{}\n".format(x["can_id"]))
-
 
 
 #%% parse configs
@@ -192,13 +197,8 @@ else:
 
 
 #%%
-# fileLogPath = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\2020\08\19\221358_recon"
-# fileLogPath = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\recon\221358_recon"
-# fileLogPath = r"C:\temp\09\11\010958"
-# fileLogPath = r"C:\temp\sd card dump\2020\10\23\032822"
-fileLogPath = r"/home/ben/Documents/logs/2020/10/25/023202"
+fileLogPath = r"C:\temp\sd card dump\2020\10\25\023202"
 
-# ptrn = r"\s*(?P<time>\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 ptrn = r"^\s*(?P<time>\d*.\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 mtch = re.compile(pattern=ptrn)
 x = None
@@ -346,6 +346,35 @@ for idnt in arrivalTimes:
         deltaTstats[idnt]['stddev'] = statistics.stdev(deltaTs[idnt])
         deltaTstats[idnt]['median'] = statistics.median(deltaTs[idnt])
 
+#%%
+plotlimit = len(deltaTstats)
+width = 5
+height = round(plotlimit/width)
+plt.rcParams.update({
+    "figure.facecolor":  (1.0, 1.0, 1.0, 1),
+    "axes.facecolor":    (1.0, 1.0, 1.0, 1),
+    "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+    'figure.figsize' : [30,plotlimit],
+    'figure.dpi' : 200,
+    'savefig.pad_inches' : 0.1,
+})
+fig, axs = plt.subplots(height, width)
+for i, canid in enumerate(sorted(deltaTs.keys())[0:plotlimit]):
+    axs[int(i/width)][i%width].plot(range(len(deltaTs[canid])), deltaTs[canid])
+    axs[int(i/width)][i%width].set_title(f"0x{canid:x}")
+    axs[int(i/width)][i%width].set_xlabel('frame number')
+    axs[int(i/width)][i%width].set_ylabel('deltaT (s)')
+    patches = []
+    if canid in database:
+        names = [cfg.name for cfg in database[canid]]
+        for name in names[0:8]:
+            patches.append(mpatches.Patch(label=name))
+        plotText = "\n".join(names)
+    axs[int(i/width)][i%width].legend(handles=patches, loc=4)
+
+plt.savefig("CAN_interframe_times_per_id")
+    
+ 
 
 #%% Plot stats
 def annotate(plt, canid, text = "", units="", xOffset = 1.5, yOffset = 1.5):
@@ -491,3 +520,5 @@ outputFilePath, _ = os.path.splitext(fileLogPath)
 outputFilePath += r'_parsed.csv'
 df.to_csv(outputFilePath, index=False)
 print("CSV saved to", outputFilePath)
+
+# %%
