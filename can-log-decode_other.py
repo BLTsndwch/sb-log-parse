@@ -16,6 +16,7 @@ from si_prefix import si_format
 import sys
 import wget
 
+doPlots = True
 #%% args
 parser = argparse.ArgumentParser(description="Parse a SensorBoard can log")
 parser.add_argument('inputFile', nargs='*', default=None, help="the can log to parse")
@@ -23,6 +24,7 @@ args = parser.parse_args()
 
 
 #%% files
+print("-"*10)
 dirname = os.path.dirname(__file__)
 configFolder = os.path.join(dirname, 'configs')
 
@@ -165,8 +167,7 @@ for canid in sorted(database.items()):
 print("Config parse done.")
 
 #%%
-args = {'inputFile': None}
-args.inputFile = r"C:\Users\benlt\OneDrive\School\20211\Solar\incident\sd card\2020\08\19\221358"
+
 if not args.inputFile:
     driveRoot = r"/media/ben/SENSORBOARD/"
 
@@ -193,11 +194,13 @@ if not args.inputFile:
 
     fileLogPath = os.path.join(logPath, fileName)
 else:
-    fileLogPath = args.inputFile
+    fileLogPath = args.inputFile[0]
+    doPlots = False
 
 
 #%%
-fileLogPath = r"C:\temp\sd card dump\2020\10\25\023202"
+# fileLogPath = r"/home/ben/Documents/logs/2020/10/28/220627"
+
 
 ptrn = r"^\s*(?P<time>\d*.\d*)\%(?P<id>0x[a-fA-F0-9]+)\:(?P<dlc>\d*)\:(?P<data>[a-zA-Z0-9,]*)"
 mtch = re.compile(pattern=ptrn)
@@ -308,209 +311,217 @@ with open(fileLogPath) as inputdata:
     median = statistics.median(times)
     print(f"\u0394t: mean = {si_format(mean)}s, median = {si_format(median)}s, stdev = {si_format(stddev)}s")
     print("IDs not in configs:", list(map(hex,sorted(unknownIds))))
-    newSata = pandas.Series(times).rolling(window=int(len(times)/100)).mean()
+    if doPlots:
+        newSata = pandas.Series(times).rolling(window=int(len(times)/100)).mean()
+        plt.rcParams.update({
+            "figure.facecolor":  (1.0, 1.0, 1.0, 1),
+            "axes.facecolor":    (1.0, 1.0, 1.0, 1),
+            "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+            'figure.figsize' : [7,5],
+            'figure.dpi' : 200
+        })
+        fig, ax = plt.subplots()
+        ax.set_xlabel("CAN log line number")
+        ax.set_ylabel("Smoothed time between frames (s)")
+        ax.set_title("Rolling mean time between consecutive frames")
+        ax.grid(True)
+        ax.plot(newSata)
+        ax.set_xlim(0, len(times))
+        plt.savefig("CAN_interframe_times")
+        plt.show()
+
+
+#%% preform stats on the arrival times
+if doPlots:
+    deltaTs = {}
+    deltaTstats = {}
+    for idnt in arrivalTimes:
+        deltaTstats[idnt] = {}
+        if len(arrivalTimes[idnt]) == 1:
+            deltaTstats[idnt]['mean']   = 0
+            deltaTstats[idnt]['stddev'] = 0
+            deltaTstats[idnt]['median'] = 0
+        else:
+            lastTime = arrivalTimes[idnt][0]
+            deltaTs[idnt] = []
+            for time in arrivalTimes[idnt][1:]:
+                deltaTs[idnt].append(time-lastTime)
+                lastTime = time
+            deltaTstats[idnt]['mean']   = statistics.mean(deltaTs[idnt])
+            deltaTstats[idnt]['stddev'] = statistics.stdev(deltaTs[idnt])
+            deltaTstats[idnt]['median'] = statistics.median(deltaTs[idnt])
+
+#%%
+if doPlots:
+    plotlimit = len(deltaTstats)
+    width = 5
+    height = round(plotlimit/width)
     plt.rcParams.update({
         "figure.facecolor":  (1.0, 1.0, 1.0, 1),
         "axes.facecolor":    (1.0, 1.0, 1.0, 1),
         "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-        'figure.figsize' : [7,5],
-        'figure.dpi' : 200
+        'figure.figsize' : [30,plotlimit],
+        'figure.dpi' : 200,
+        'savefig.pad_inches' : 0.1,
     })
+    fig, axs = plt.subplots(height, width)
+    for i, canid in enumerate(sorted(deltaTs.keys())[0:plotlimit]):
+        axs[int(i/width)][i%width].plot(range(len(deltaTs[canid])), deltaTs[canid])
+        axs[int(i/width)][i%width].set_title(f"0x{canid:x}")
+        axs[int(i/width)][i%width].set_xlabel('frame number')
+        axs[int(i/width)][i%width].set_ylabel('deltaT (s)')
+        patches = []
+        if canid in database:
+            names = [cfg.name for cfg in database[canid]]
+            for name in names[0:8]:
+                patches.append(mpatches.Patch(label=name))
+            plotText = "\n".join(names)
+        axs[int(i/width)][i%width].legend(handles=patches, loc=4)
+
+    plt.savefig("CAN_interframe_times_per_id")
+        
+    
+
+#%% Plot stats
+if doPlots:
+        
+    def annotate(plt, canid, text = "", units="", xOffset = 1.5, yOffset = 1.5):
+        if  text:
+            plotText = text
+        elif canid in database:
+            names = [cfg.name for cfg in database[canid]]
+            plotText = "\n".join(names)
+        else:
+            plotText = f"0x{canid:x}"
+        if units:
+            plotText = plotText + f"\n({yvals[xvals.index(canid)]:0.1f} {units})"
+        plt.annotate(plotText, xy=(xvals.index(canid), yvals[xvals.index(canid)]), 
+            arrowprops=dict(facecolor='black', shrink=0.1),
+            xytext=(xvals.index(canid)+xOffset, yvals[xvals.index(canid)]+yOffset))
+
+
+    xvals = []
+    yvals = []
+    colors = []
+    errorBars = []
+    colorConfigs = {
+        'bms' : 'tab:blue',
+        'sensorboard' : 'tab:purple',
+        'rightWS' : 'tab:olive',
+        'leftWS' : 'tab:green',
+        'mc2' : 'tab:brown',
+        'mppt' : 'tab:cyan',
+        'other' : 'tab:grey'
+    }
+    patches = []
+    for key, value in colorConfigs.items():
+        patches.append(mpatches.Patch(color=colorConfigs[key], label=key))
+    counts = {
+        'bms' : 0,
+        'sensorboard' : 0,
+        'rightWS' : 0,
+        'leftWS' : 0,
+        'mppt' : 0,
+        'other' : 0,
+        'mc2' : 0,
+    }
+    unitStr = "Hz"
+    errorCap = 10
+    otherIds = []
+    for key in sorted(countsPerIdnt.keys()):
+        xvals.append(key)
+        yvals.append(countsPerIdnt[key]/timeTaken)
+        error = deltaTstats[key]['stddev']
+        if error > errorCap: error = errorCap
+        errorBars.append(error)
+        if key == 0x1 or (key >= 0x300 and key <= 0x34e):
+            colors.append(colorConfigs['bms'])
+            counts['bms'] += 1
+        elif key == 0x69 or (key >= 0x7b1 and key <= 0x7c7):
+            colors.append(colorConfigs['sensorboard'])
+            counts['sensorboard'] += 1
+        elif ((key >= 0x180 and key <= 0x181) 
+            or (key >= 0x280 and key <= 0x281)
+            or (key >= 0x480 and key <= 0x481)
+            or (key >= 0x690 and key <= 0x695)):
+            colors.append(colorConfigs['mppt'])
+            counts['mppt'] += 1
+        elif key >= 0x400 and key < 0x420:
+            colors.append(colorConfigs['rightWS'])
+            counts['rightWS'] += 1
+        elif key >= 0x420 and key <= 0x437:
+            colors.append(colorConfigs['leftWS'])
+            counts['leftWS'] += 1
+        elif key >= 0x501 and key <= 0x569:
+            colors.append(colorConfigs['mc2'])
+            counts['mc2'] += 1
+        else:
+            colors.append(colorConfigs['other'])
+            counts['other'] += 1
+            if key not in otherIds:
+                otherIds.append(key)
+    plt.rcParams.update({
+        "figure.facecolor":  (1.0, 1.0, 1.0, 1),
+        "axes.facecolor":    (1.0, 1.0, 1.0, 1),
+        "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+        'figure.figsize' : [20,8],
+        'figure.dpi' : 200,
+        'savefig.pad_inches' : 0.1,
+    })
+
     fig, ax = plt.subplots()
-    ax.set_xlabel("CAN log line number")
-    ax.set_ylabel("Smoothed time between frames (s)")
-    ax.set_title("Rolling mean time between consecutive frames")
-    ax.grid(True)
-    ax.plot(newSata)
-    ax.set_xlim(0, len(times))
-    plt.savefig("CAN_interframe_times")
+
+    ax.bar(range(len(xvals)), yvals, align='center', color=colors, yerr=errorBars)
+    plt.xticks(range(len(xvals)), [hex(val) for val in xvals])
+    plt.xticks(rotation=75)
+    ymax = 5*round(max(yvals)/5)+10
+    plt.yticks(range(0,ymax, 5))
+    plt.ylim(0, ymax-5)
+    ax.yaxis.set_minor_locator(mticker.AutoMinorLocator())
+    plt.xlabel('CAN ID')
+    plt.ylabel('frames/s')
+    startTimeStr = datetime.datetime.utcfromtimestamp(firstTime - 6*60*1000).strftime("%m/%d/%Y %H:%M:%S ET")
+    endTimeStr = datetime.datetime.utcfromtimestamp(time- 6*60*1000).strftime("%m/%d/%Y %H:%M:%S ET")
+    titleStr = f"""
+    Frequency of CAN IDs from {startTimeStr} to {endTimeStr} ({datetime.timedelta(seconds=round(timeTaken))} h:mm:ss)
+    Average frame rate: {linenum/timeTaken:0.2f} frames/s. Large variances capped to {errorCap}"""
+    plt.title(titleStr)
+    plt.grid(True, which='major', axis='y')
+    plt.grid(True, which='minor', alpha=0.25, axis='y')
+    plt.legend(('label1', 'label2', 'label3'))
+
+    annotate(plt, 0x403, "Right RPM", units=unitStr)
+    annotate(plt, 0x423, "Left RPM", units=unitStr)
+
+    annotate(plt, 0x300, units=unitStr)
+    annotate(plt, 0x342, units=unitStr)
+
+    plt.legend(handles=patches, loc=1)
+    plt.savefig('CAN_Freq', transparent=False)
     plt.show()
 
 
-#%% preform stats on the arrival times
-deltaTs = {}
-deltaTstats = {}
-for idnt in arrivalTimes:
-    deltaTstats[idnt] = {}
-    if len(arrivalTimes[idnt]) == 1:
-        deltaTstats[idnt]['mean']   = 0
-        deltaTstats[idnt]['stddev'] = 0
-        deltaTstats[idnt]['median'] = 0
-    else:
-        lastTime = arrivalTimes[idnt][0]
-        deltaTs[idnt] = []
-        for time in arrivalTimes[idnt][1:]:
-            deltaTs[idnt].append(time-lastTime)
-            lastTime = time
-        deltaTstats[idnt]['mean']   = statistics.mean(deltaTs[idnt])
-        deltaTstats[idnt]['stddev'] = statistics.stdev(deltaTs[idnt])
-        deltaTstats[idnt]['median'] = statistics.median(deltaTs[idnt])
-
-#%%
-plotlimit = len(deltaTstats)
-width = 5
-height = round(plotlimit/width)
-plt.rcParams.update({
-    "figure.facecolor":  (1.0, 1.0, 1.0, 1),
-    "axes.facecolor":    (1.0, 1.0, 1.0, 1),
-    "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-    'figure.figsize' : [30,plotlimit],
-    'figure.dpi' : 200,
-    'savefig.pad_inches' : 0.1,
-})
-fig, axs = plt.subplots(height, width)
-for i, canid in enumerate(sorted(deltaTs.keys())[0:plotlimit]):
-    axs[int(i/width)][i%width].plot(range(len(deltaTs[canid])), deltaTs[canid])
-    axs[int(i/width)][i%width].set_title(f"0x{canid:x}")
-    axs[int(i/width)][i%width].set_xlabel('frame number')
-    axs[int(i/width)][i%width].set_ylabel('deltaT (s)')
-    patches = []
-    if canid in database:
-        names = [cfg.name for cfg in database[canid]]
-        for name in names[0:8]:
-            patches.append(mpatches.Patch(label=name))
-        plotText = "\n".join(names)
-    axs[int(i/width)][i%width].legend(handles=patches, loc=4)
-
-plt.savefig("CAN_interframe_times_per_id")
-    
- 
-
-#%% Plot stats
-def annotate(plt, canid, text = "", units="", xOffset = 1.5, yOffset = 1.5):
-    if  text:
-        plotText = text
-    elif canid in database:
-        names = [cfg.name for cfg in database[canid]]
-        plotText = "\n".join(names)
-    else:
-        plotText = f"0x{canid:x}"
-    if units:
-        plotText = plotText + f"\n({yvals[xvals.index(canid)]:0.1f} {units})"
-    plt.annotate(plotText, xy=(xvals.index(canid), yvals[xvals.index(canid)]), 
-        arrowprops=dict(facecolor='black', shrink=0.1),
-        xytext=(xvals.index(canid)+xOffset, yvals[xvals.index(canid)]+yOffset))
-
-
-xvals = []
-yvals = []
-colors = []
-errorBars = []
-colorConfigs = {
-    'bms' : 'tab:blue',
-    'sensorboard' : 'tab:purple',
-    'rightWS' : 'tab:olive',
-    'leftWS' : 'tab:green',
-    'mc2' : 'tab:brown',
-    'mppt' : 'tab:cyan',
-    'other' : 'tab:grey'
-}
-patches = []
-for key, value in colorConfigs.items():
-    patches.append(mpatches.Patch(color=colorConfigs[key], label=key))
-counts = {
-    'bms' : 0,
-    'sensorboard' : 0,
-    'rightWS' : 0,
-    'leftWS' : 0,
-    'mppt' : 0,
-    'other' : 0,
-    'mc2' : 0,
-}
-unitStr = "Hz"
-errorCap = 10
-for key in sorted(countsPerIdnt.keys()):
-    xvals.append(key)
-    yvals.append(countsPerIdnt[key]/timeTaken)
-    error = deltaTstats[key]['stddev']
-    if error > errorCap: error = errorCap
-    errorBars.append(error)
-    if key == 0x1 or (key >= 0x300 and key <= 0x34e):
-        colors.append(colorConfigs['bms'])
-        counts['bms'] += 1
-    elif key == 0x69 or (key >= 0x7b1 and key <= 0x7c7):
-        colors.append(colorConfigs['sensorboard'])
-        counts['sensorboard'] += 1
-    elif ((key >= 0x180 and key <= 0x181) 
-        or (key >= 0x280 and key <= 0x281)
-        or (key >= 0x480 and key <= 0x481)
-        or (key >= 0x690 and key <= 0x695)):
-        colors.append(colorConfigs['mppt'])
-        counts['mppt'] += 1
-    elif key >= 0x400 and key < 0x420:
-        colors.append(colorConfigs['rightWS'])
-        counts['rightWS'] += 1
-    elif key >= 0x420 and key <= 0x437:
-        colors.append(colorConfigs['leftWS'])
-        counts['leftWS'] += 1
-    elif key >= 0x501 and key <= 0x569:
-        colors.append(colorConfigs['mc2'])
-        counts['mc2'] += 1
-    else:
-        colors.append(colorConfigs['other'])
-        counts['other'] += 1
-plt.rcParams.update({
-    "figure.facecolor":  (1.0, 1.0, 1.0, 1),
-    "axes.facecolor":    (1.0, 1.0, 1.0, 1),
-    "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-    'figure.figsize' : [20,8],
-    'figure.dpi' : 200,
-    'savefig.pad_inches' : 0.1,
-})
-
-fig, ax = plt.subplots()
-
-ax.bar(range(len(xvals)), yvals, align='center', color=colors, yerr=errorBars)
-plt.xticks(range(len(xvals)), [hex(val) for val in xvals])
-plt.xticks(rotation=75)
-ymax = 5*round(max(yvals)/5)+10
-plt.yticks(range(0,ymax, 5))
-plt.ylim(0, ymax-5)
-ax.yaxis.set_minor_locator(mticker.AutoMinorLocator())
-plt.xlabel('CAN ID')
-plt.ylabel('frames/s')
-startTimeStr = datetime.datetime.utcfromtimestamp(firstTime - 6*60*1000).strftime("%m/%d/%Y %H:%M:%S ET")
-endTimeStr = datetime.datetime.utcfromtimestamp(time- 6*60*1000).strftime("%m/%d/%Y %H:%M:%S ET")
-titleStr = f"""
-Frequency of CAN IDs from {startTimeStr} to {endTimeStr} ({datetime.timedelta(seconds=round(timeTaken))} h:mm:ss)
-Average frame rate: {linenum/timeTaken:0.2f} frames/s. Large variances capped to {errorCap}"""
-plt.title(titleStr)
-plt.grid(True, which='major', axis='y')
-plt.grid(True, which='minor', alpha=0.25, axis='y')
-plt.legend(('label1', 'label2', 'label3'))
-
-annotate(plt, 0x403, "Right RPM", units=unitStr)
-annotate(plt, 0x423, "Left RPM", units=unitStr)
-
-annotate(plt, 0x300, units=unitStr)
-annotate(plt, 0x342, units=unitStr)
-
-plt.legend(handles=patches, loc=1)
-plt.savefig('CAN_Freq', transparent=False)
-plt.show()
-
-
-vals = []
-labels = []
-colors = []
-for key, value in counts.items():
-    if value == 0: 
-        continue
-    vals.append(value)
-    labels.append(key)
-    colors.append(colorConfigs.get(key, 'tab:grey'))
-plt.rcParams.update({
-    "figure.facecolor":  (1.0, 1.0, 1.0, 1),
-    "axes.facecolor":    (1.0, 1.0, 1.0, 1),
-    "savefig.facecolor": (1.0, 1.0, 1.0, 1),
-    'figure.figsize' : [7,6],
-    'figure.dpi' : 200
-})
-plt.pie(vals, colors=colors, labels=labels, autopct='%1.1f%%')
-plt.rcParams['figure.dpi'] = 100 
-plt.title(f'Percentage of frames counted over {datetime.timedelta(seconds=round(timeTaken))} h:mm:ss.')
-plt.savefig('CAN_Pie', transparent=False)
-plt.show()
+    vals = []
+    labels = []
+    colors = []
+    for key, value in counts.items():
+        if value == 0: 
+            continue
+        vals.append(value)
+        labels.append(key)
+        colors.append(colorConfigs.get(key, 'tab:grey'))
+    plt.rcParams.update({
+        "figure.facecolor":  (1.0, 1.0, 1.0, 1),
+        "axes.facecolor":    (1.0, 1.0, 1.0, 1),
+        "savefig.facecolor": (1.0, 1.0, 1.0, 1),
+        'figure.figsize' : [7,6],
+        'figure.dpi' : 200
+    })
+    plt.pie(vals, colors=colors, labels=labels, autopct='%1.1f%%')
+    plt.rcParams['figure.dpi'] = 100 
+    plt.title(f'Percentage of frames counted over {datetime.timedelta(seconds=round(timeTaken))} h:mm:ss.')
+    plt.savefig('CAN_Pie', transparent=False)
+    plt.show()
 #%% output csv
 
 df = pandas.DataFrame(outputLines, columns=headerlist)
