@@ -81,6 +81,10 @@ class CanFrameInfo(object):
             self.datatype = int
             self.dataWidth = 1
             self.parsestr = r'<' + r'x' * self.offset + r'B' + r'x' * (8 - self.offset - self.dataWidth)
+        elif self.dataTypeStr == 'int8':
+            self.datatype = int
+            self.dataWidth = 1
+            self.parsestr = r'<' + r'x' * self.offset + r'b' + r'x' * (8 - self.offset - self.dataWidth)
         elif self.dataTypeStr == 'uint32':
             self.datatype = int
             self.dataWidth = 4
@@ -92,7 +96,7 @@ class CanFrameInfo(object):
             self.dataWidth = 1
             self.parsestr = r'<' + r'x' * self.offset + r'B' + r'x' * (8 - self.offset - self.dataWidth)
         else:
-            raise(Exception("Unknown type"))
+            raise(Exception("Unknown type of {}".format(self.dataTypeStr)))
 
 
     def parse(self, candata):
